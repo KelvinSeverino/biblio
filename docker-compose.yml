@@ -9,7 +9,9 @@ services:
     volumes:
       - ./backend:/var/www/html
     ports:
-      - "8080:80"
+      - 8080:80
+    networks: 
+      - laranet
     depends_on:
       - db
 
@@ -17,15 +19,20 @@ services:
     image: mysql:8.0
     container_name: biblio_db
     restart: always
+    env_file:
+      - .env
     ports:
-      - "3306:3306"
+      - 3306:3306
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: livrosdb
-      MYSQL_USER: user
-      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD : ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - dbdata:/var/lib/mysql
+      - ./db_data:/var/lib/mysql
+    networks: 
+      - laranet
 
-volumes:
-  dbdata:
+networks: 
+  laranet:
+    driver: bridge
