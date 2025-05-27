@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AssuntoRequest extends FormRequest
 {
@@ -23,11 +24,22 @@ class AssuntoRequest extends FormRequest
     {
         if ($this->isMethod('post')) {
             return [
-                'Descricao' => 'required|string|max:20',
+                'descricao' => [
+                    'required',
+                    'string',
+                    'max:40',
+                    Rule::unique('assuntos', 'descricao'),
+                ],
             ];
         } elseif ($this->isMethod('put') || $this->isMethod('patch')) {
             return [
-                'Descricao' => 'sometimes|required|string|max:20',
+                'descricao' => [
+                    'sometimes',
+                    'required',
+                    'string',
+                    'max:40',
+                    Rule::unique('assuntos', 'descricao')->ignore($this->route('assunto'),'codas'), 
+                ],
             ];
         }
 
