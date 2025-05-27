@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AutorRequest;
 use App\Models\Autor;
 use Illuminate\Http\Request;
 
@@ -13,7 +14,7 @@ class AutorController extends Controller
         return Autor::all();
     }
 
-    public function store(Request $request)
+    public function store(AutorRequest $request)
     {
         $data = $request->validated();
 
@@ -27,7 +28,7 @@ class AutorController extends Controller
         return Autor::findOrFail($id);
     }
 
-    public function update(Request $request, $id)
+    public function update(AutorRequest $request, $id)
     {
         $autor = Autor::findOrFail($id);
 

@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Log;
 
 class AutorRequest extends FormRequest
 {
@@ -23,11 +25,22 @@ class AutorRequest extends FormRequest
     {
         if ($this->isMethod('post')) {
             return [
-                'Nome' => 'required|string|max:40',
+                'nome' => [
+                    'required',
+                    'string',
+                    'max:40',
+                    Rule::unique('autors', 'nome'),
+                ],
             ];
         } elseif ($this->isMethod('put') || $this->isMethod('patch')) {
             return [
-                'Nome' => 'sometimes|required|string|max:40',
+                'nome' => [
+                    'sometimes',
+                    'required',
+                    'string',
+                    'max:40',
+                    Rule::unique('autors', 'nome')->ignore($this->route('autore'),'codau'), 
+                ],
             ];
         }
 
