@@ -23,7 +23,7 @@ async function getById(id) {
 
 async function storeSubject(subjectFields) {
     try {
-        const response = await subjectsAPI.post('/', subjectFields);
+        const response = await subjectsAPI.post('', subjectFields);
         return response.data;
     } catch (e) {
         const errorMessage = e.response.data;

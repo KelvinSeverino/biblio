@@ -6,6 +6,9 @@ import BookEdit from "./components/Books/BookEdit";
 import AuthorHome from './components/Authors/AuthorHome';
 import AuthorView from "./components/Authors/AuthorView";
 import AuthorEdit from "./components/Authors/AuthorEdit";
+import SubjectHome from './components/Subjects/SubjectHome';
+import SubjectView from "./components/Subjects/SubjectView";
+import SubjectEdit from "./components/Subjects/SubjectEdit";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -22,6 +25,10 @@ function App() {
           <Route exact path="/autores" element={<AuthorHome />} />
           <Route exact path="/autores/view/:id" element={<AuthorView />}/>
           <Route exact path="/autores/edit/:id" element={<AuthorEdit />}/>
+          
+          <Route exact path="/assuntos" element={<SubjectHome />} />
+          <Route exact path="/assuntos/view/:id" element={<SubjectView />}/>
+          <Route exact path="/assuntos/edit/:id" element={<SubjectEdit />}/>
 
           <Route path="*" element={<p>Path not resolved</p>} />
         </Routes>

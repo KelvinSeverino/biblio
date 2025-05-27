@@ -1,6 +1,6 @@
 import React, { } from 'react';
 import { Link } from 'react-router-dom';
-import { FaBook, FaTags, FaUser, FaUsers, FaStore, FaShoppingCart } from 'react-icons/fa';
+import { FaBook, FaTags, FaUser, FaFileExport } from 'react-icons/fa';
 
 function Home() {
     return (
@@ -42,28 +42,11 @@ function Home() {
                 <div className="col-md-3 mb-3">
                     <div className="card shadow-sm h-100">
                         <div className="card-body">
-                            <FaUsers size={40} className="text-danger mb-3" />
-                            <h5 className="card-title">Usuários</h5>
-                            <p className="card-text">Controle de usuários do sistema.</p>
-                            <Link to="/users" className="btn btn-danger w-100">Acessar</Link>
+                            <FaFileExport size={40} className="text-danger mb-3" />
+                            <h5 className="card-title">Relatório</h5>
+                            <p className="card-text">Baixe o relatório de gerenciamento.</p>
+                            <Link to="/relatorio" className="btn btn-danger w-100">Baixar</Link>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className="card mt-4 shadow-sm">
-                <div className="card-body d-flex justify-content-between align-items-center">
-                    <div>
-                        <h5 className="text-primary"><FaStore className="me-2" />Leitor</h5>
-                        <p className="text-muted mb-0">Acesse o acervo e gerencie suas leituras com facilidade.</p>
-                    </div>
-                    <div>
-                        <Link to="/acervo" className="btn btn-primary me-2">
-                            <FaStore className="me-1" /> Acessar Acervo
-                        </Link>
-                        <Link to="/carrinho" className="btn btn-outline-primary">
-                            <FaShoppingCart className="me-1" /> Ver Carrinho
-                        </Link>
                     </div>
                 </div>
             </div>

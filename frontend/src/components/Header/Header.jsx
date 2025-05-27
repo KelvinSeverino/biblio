@@ -9,12 +9,6 @@ function Header({ title }) {
                     <div className="d-flex justify-content-center flex-grow-1">
                         <span className="nav-text"><strong>{ title } | Biblio</strong></span>
                     </div>
-
-                    <ul className="nav">
-                        <li className="nav-item">
-                            <button className='btn btn-dark btn-sm'>Logout</button>
-                        </li>
-                    </ul>
                 </div>
             </nav>
         </div>
