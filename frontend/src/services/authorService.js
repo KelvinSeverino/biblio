@@ -23,7 +23,7 @@ async function getById(id) {
 
 async function storeAuthor(authorFields) {
     try {
-        const response = await authorsAPI.post('/', authorFields);
+        const response = await authorsAPI.post('', authorFields);
         return response.data;
     } catch (e) {
         const errorMessage = e.response.data;
@@ -42,8 +42,7 @@ async function updateAuthor(id, authorFields) {
 }
 
 async function destroyAuthor(id) {
-    await authorsAPI.delete(`/${id}`)
-    
+    await authorsAPI.delete(`/${id}`);    
 }
 
 export {
