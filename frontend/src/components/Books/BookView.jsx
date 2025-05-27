@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { getById } from '../../services/bookService';
 import Header from '../Header/Header';
+import { formatCurrencyBR } from '../../utils/currencyHelper';
 
 const BookView = () => {
     const { id } = useParams();
@@ -44,7 +45,7 @@ const BookView = () => {
                                 <td>{book.editora}</td>
                                 <td>{book.edicao}</td>
                                 <td>{book.ano_publicacao}</td>
-                                <td>{book.valor}</td>
+                                <td>{ formatCurrencyBR(book.valor) }</td>
                             </tr>
                         </tbody>
                     </table>

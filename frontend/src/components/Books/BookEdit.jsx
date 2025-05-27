@@ -151,16 +151,22 @@ const BookEdit = () => {
                         </div>
                     </div>
                     <div className='row'>
-                        <div className='col-6'>
+                        <div className='col-3'>
                             <div className="mt-2">
                                 <label className="form-label">Edição:</label>
                                 <input type="number" step="any" className="form-control" id="edicao" placeholder="Insira edicao" name="edicao" value={bookField.edicao} onChange={e => changeBookFieldHandler(e)} />
                             </div>
                         </div>
-                        <div className='col-6'>
+                        <div className='col-5'>
                             <div className="mt-2">
                                 <label className="form-label">Ano Publicação:</label>
                                 <input type="number" min="1000" max="9999" className="form-control" id="ano_publicacao" placeholder="Insira Ano" name="ano_publicacao" value={bookField.ano_publicacao} onChange={e => changeBookFieldHandler(e)} />
+                            </div>
+                        </div>
+                        <div className='col-4'>
+                            <div className="mt-2">
+                                <label className="form-label">Valor R$:</label>
+                                <input type="text" className="form-control" id="valor" placeholder="Insira Valor" name="valor" value={bookField.valor} onChange={e => changeBookFieldHandler(e)} />
                             </div>
                         </div>
                     </div>

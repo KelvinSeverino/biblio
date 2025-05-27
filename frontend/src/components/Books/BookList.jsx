@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { destroyBook, getBooks } from "../../services/bookService";
+import { formatCurrencyBR } from '../../utils/currencyHelper';
 
 const BookList = () => { 
     const [books, setBooks] = useState([])
@@ -41,7 +42,7 @@ const BookList = () => {
                                     <td>{book.titulo}</td>
                                     <td>{book.editora}</td>
                                     <td>{book.ano_publicacao}</td>
-                                    <td>{book.valor}</td>
+                                    <td>{ formatCurrencyBR(book.valor) }</td>
                                     <td>
                                         <NavLink to={`/livros/view/${book.codl}`} className="btn btn-secondary">Abrir</NavLink>
                                         <NavLink to={`/livros/edit/${book.codl}`} className="btn btn-warning mx-2">Editar</NavLink>
