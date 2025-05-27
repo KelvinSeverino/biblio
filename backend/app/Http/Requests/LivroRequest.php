@@ -23,19 +23,29 @@ class LivroRequest extends FormRequest
     {
         if ($this->isMethod('post')) {
             return [
-                'Titulo' => 'required|string|max:40',
-                'Editora' => 'required|string|max:40',
-                'Edicao' => 'required|integer|min:1',
-                'AnoPublicacao' => 'required|string|size:4',
+                'titulo' => 'required|string|max:40',
+                'editora' => 'required|string|max:40',
+                'edicao' => 'required|integer|min:1',
+                'ano_publicacao' => 'required|string|size:4',
                 'valor' => 'required|numeric|min:0',
+
+                'autores' => 'required|array|min:1',
+                'autores.*' => 'integer|exists:autors,codau',
+                'assuntos' => 'required|array|min:1',
+                'assuntos.*' => 'integer|exists:assuntos,codas',
             ];
         } elseif ($this->isMethod('put') || $this->isMethod('patch')) {
             return [
-                'Titulo' => 'sometimes|required|string|max:40',
-                'Editora' => 'sometimes|required|string|max:40',
-                'Edicao' => 'sometimes|required|integer|min:1',
-                'AnoPublicacao' => 'sometimes|required|string|size:4',
-                'valor' => 'sometimes|required|numeric|min:0',
+                'titulo' => 'sometimes|required|string|max:40',
+                'editora' => 'sometimes|required|string|max:40',
+                'edicao' => 'sometimes|required|integer|min:1',
+                'ano_publicacao' => 'sometimes|required|string|size:4',
+                'valor' => 'sometimes|required|numeric|min:0',                
+
+                'autores' => 'required|array|min:1',
+                'autores.*' => 'integer|exists:autors,codau',
+                'assuntos' => 'required|array|min:1',
+                'assuntos.*' => 'integer|exists:assuntos,codas',
             ];
         }
 

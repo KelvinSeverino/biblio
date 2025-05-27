@@ -39,7 +39,7 @@ class LivroController extends Controller
         return $livro;
     }
 
-    public function update(Request $request, $id)
+    public function update(LivroRequest $request, $id)
     {
         $livro = Livro::findOrFail($id);
 
