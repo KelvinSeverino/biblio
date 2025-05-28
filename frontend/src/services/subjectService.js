@@ -5,7 +5,7 @@ async function getSubjects() {
         const response = await apiService.get("/assuntos");  
         return response.data;
     } catch (e) {
-        throw e; // 🔹 Lançamos o erro tratado pelo `apiService.js`
+        throw e; // Lanca o erro para ser tratado no apiService
     }
 }
 

@@ -5,7 +5,7 @@ async function getAuthors() {
         const response = await apiService.get("/autores");  
         return response.data;
     } catch (e) {
-        throw e; // Retorna mensagem tratada no apiService
+        throw e; // Lanca o erro para ser tratado no apiService
     }
 }
 
