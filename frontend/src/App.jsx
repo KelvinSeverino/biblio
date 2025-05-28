@@ -9,6 +9,7 @@ import AuthorEdit from "./components/Authors/AuthorEdit";
 import SubjectHome from './components/Subjects/SubjectHome';
 import SubjectView from "./components/Subjects/SubjectView";
 import SubjectEdit from "./components/Subjects/SubjectEdit";
+import ReportPage from "./components/Reports/ReportPage";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 function App() {
@@ -29,6 +30,9 @@ function App() {
           <Route exact path="/assuntos" element={<SubjectHome />} />
           <Route exact path="/assuntos/view/:id" element={<SubjectView />}/>
           <Route exact path="/assuntos/edit/:id" element={<SubjectEdit />}/>
+
+          
+          <Route exact path="/relatorio" element={<ReportPage />} />
 
           <Route path="*" element={<p>Path not resolved</p>} />
         </Routes>
