@@ -30,7 +30,7 @@ class LivroRequest extends FormRequest
                 'valor' => 'required|numeric|min:0',
 
                 'autores' => 'required|array|min:1',
-                'autores.*' => 'integer|exists:autors,codau',
+                'autores.*' => 'integer|exists:autores,codau',
                 'assuntos' => 'required|array|min:1',
                 'assuntos.*' => 'integer|exists:assuntos,codas',
             ];
@@ -43,7 +43,7 @@ class LivroRequest extends FormRequest
                 'valor' => 'sometimes|required|numeric|min:0',                
 
                 'autores' => 'required|array|min:1',
-                'autores.*' => 'integer|exists:autors,codau',
+                'autores.*' => 'integer|exists:autores,codau',
                 'assuntos' => 'required|array|min:1',
                 'assuntos.*' => 'integer|exists:assuntos,codas',
             ];
