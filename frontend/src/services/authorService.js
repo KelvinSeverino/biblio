@@ -1,48 +1,48 @@
-import axios from "axios";
-
-const authorsAPI = axios.create({baseURL: "http://localhost:8080/api/autores"})
+import apiService from "./apiService";
 
 async function getAuthors() {    
     try {
-        const response = await authorsAPI.get("")  
-        return response.data
+        const response = await apiService.get("/autores");  
+        return response.data;
     } catch (e) {
-        console.log("something Wrong");
-        return;
+        throw e; // Retorna mensagem tratada no apiService
     }
 }
 
 async function getById(id) {    
     try {
-        const response = await authorsAPI.get(`/${id}`)   
-        return response.data
+        const response = await apiService.get(`/autores/${id}`);   
+        return response.data;
     } catch (e) {
-        console.log("something Wrong");
+        throw e; 
     }
 }
 
 async function storeAuthor(authorFields) {
     try {
-        const response = await authorsAPI.post('', authorFields);
+        const response = await apiService.post("/autores", authorFields);
         return response.data;
     } catch (e) {
-        const errorMessage = e.response.data;
-        return { error: errorMessage };
+        throw e;
     }
 }
 
 async function updateAuthor(id, authorFields) {
     try {
-        const response = await authorsAPI.put(`/${id}`, authorFields);
+        const response = await apiService.put(`/autores/${id}`, authorFields);
         return response.data;
     } catch (e) {
-        const errorMessage = e.response.data;
-        return { error: errorMessage };
+        throw e;
     }
 }
 
 async function destroyAuthor(id) {
-    await authorsAPI.delete(`/${id}`);    
+    try {
+        const response = await apiService.delete(`/autores/${id}`);
+        return response.data;
+    } catch (e) {
+        throw e;
+    }
 }
 
 export {
@@ -51,4 +51,4 @@ export {
     storeAuthor,
     updateAuthor,
     destroyAuthor,
-}
+};

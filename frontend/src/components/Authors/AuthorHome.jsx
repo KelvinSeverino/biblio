@@ -19,18 +19,15 @@ const AuthorHome = () => {
             ...authorField,
             [e.target.name]: e.target.value
         });
-        // console.log(authorField);
     }
 
     const onSubmitChange = async (e) => {
         e.preventDefault();
         try {
-            const response = await storeAuthor(authorField);            
-            if(response.error) throw response.error;
-
+            await storeAuthor(authorField);            
             setLoading(true);
         } catch (e) {     
-            setErrorMessage(e.message);     
+            setErrorMessage(e.error);
         }
     }
     if(loading){
@@ -58,7 +55,7 @@ const AuthorHome = () => {
                     <div className='col-md-4'>
                         <h3>Informe Dados do Autor</h3>
                         <form>
-                            {errorMessage && <div className='text-danger'>{errorMessage}</div>}
+                            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                             <div className='row'>
                                 <div className='col-12'>
                                     <div className="mt-2">
