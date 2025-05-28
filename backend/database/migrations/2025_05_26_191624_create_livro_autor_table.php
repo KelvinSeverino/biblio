@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('autor_codau');
 
             $table->foreign('livro_codl')->references('codl')->on('livros')->onDelete('cascade');
-            $table->foreign('autor_codau')->references('codau')->on('autors')->onDelete('cascade');
+            $table->foreign('autor_codau')->references('codau')->on('autores')->onDelete('cascade');
 
             $table->primary(['livro_codl', 'autor_codau']); // Índice composto (PK)
         });

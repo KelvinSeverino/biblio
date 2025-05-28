@@ -29,7 +29,7 @@ class AutorRequest extends FormRequest
                     'required',
                     'string',
                     'max:40',
-                    Rule::unique('autors', 'nome'),
+                    Rule::unique('autores', 'nome'),
                 ],
             ];
         } elseif ($this->isMethod('put') || $this->isMethod('patch')) {
@@ -39,7 +39,7 @@ class AutorRequest extends FormRequest
                     'required',
                     'string',
                     'max:40',
-                    Rule::unique('autors', 'nome')->ignore($this->route('autore'),'codau'), 
+                    Rule::unique('autores', 'nome')->ignore($this->route('autor'),'codau'), 
                 ],
             ];
         }
