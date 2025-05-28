@@ -40,13 +40,16 @@ const BookEdit = () => {
 
     useEffect(() => {
         const fetchBook = async () => {
-            const bookData = await getById(id);
-
-            setBookField({
-            ...bookData,
-            autores: bookData.autores.map(a => String(a.codau)),
-            assuntos: bookData.assuntos.map(a => String(a.codas)),
-            });
+            try {
+                const bookData = await getById(id);
+                setBookField({
+                    ...bookData,
+                    autores: bookData.autores.map(a => String(a.codau)),
+                    assuntos: bookData.assuntos.map(a => String(a.codas)),
+                });
+            } catch (e) {
+                setErrorMessage(e.error); // 🔹 Agora usa a mensagem tratada pelo `apiService.js`
+            }
         };
 
         fetchBook();
@@ -57,18 +60,15 @@ const BookEdit = () => {
             ...bookField,
             [e.target.name]: e.target.value
         });
-        // console.log(bookField);
     }
 
     const onSubmitChange = async (e) => {
         e.preventDefault();
         try {
-            const response = await updateBook(id, bookField);            
-            if(response.error) throw response.error;
-
-            navigate('/livros');
-        } catch (e) {     
-            setErrorMessage(e.message);     
+            await updateBook(id, bookField);
+            navigate("/livros");
+        } catch (e) {
+            setErrorMessage(e.error);
         }
     }
     
@@ -95,7 +95,7 @@ const BookEdit = () => {
             <Header title="Editar Livro"/>
             <div className='col-12 pt-4'>
                 <form>
-                    {errorMessage && <div className='text-danger'>{errorMessage}</div>}
+                    {errorMessage && (<div className="alert alert-danger">{errorMessage}</div>)}
                     <div className='row'>
                         <div className='col-6'>
                             <div className="mt-2">

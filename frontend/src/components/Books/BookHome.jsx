@@ -51,12 +51,10 @@ const BookHome = () => {
     const onSubmitChange = async (e) => {
         e.preventDefault();
         try {
-            const response = await storeBook(bookField);            
-            if(response.error) throw response.error;
-
+            await storeBook(bookField);            
             setLoading(true);
         } catch (e) {     
-            setErrorMessage(e.message);     
+            setErrorMessage(e.error);
         }
     }
     if(loading){
@@ -84,7 +82,7 @@ const BookHome = () => {
                     <div className='col-md-4'>
                         <h3>Informe Dados do Livro</h3>
                         <form>
-                            {errorMessage && <div className='text-danger'>{errorMessage}</div>}
+                            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                             <div className='row'>
                                 <div className='col-6'>
                                     <div className="mt-2">

@@ -6,15 +6,21 @@ import { formatCurrencyBR } from '../../utils/currencyHelper';
 
 const BookView = () => {
     const { id } = useParams();
-
-    const [book, setBook] = useState([]);
     const navigate = useNavigate();
 
+    const [book, setBook] = useState({});
+    const [errorMessage, setErrorMessage] = useState(null);
+
     useEffect(() => {
-        const fetchBook = async () => {
-            const bookData = await getById(id);
-            console.log(bookData);
-            setBook(bookData);
+        const fetchBook = async () => {        
+            try {
+                const bookData = await getById(id);
+                setBook(bookData);
+                setErrorMessage(null);
+            } catch (e) {
+                setBook({});
+                setErrorMessage(e.error);
+            }
         };
 
         fetchBook();
@@ -27,6 +33,11 @@ const BookView = () => {
     return (
         <div className="container-fluid">
             <Header title="Visualizar Livro" />
+
+            {errorMessage && (
+                <div className="alert alert-danger">{errorMessage}</div>
+            )}
+
             <div className="row pt-4">
                 <div className="col-md-12">
                     <table className="table table-bordered">
@@ -41,11 +52,11 @@ const BookView = () => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{book.titulo}</td>
-                                <td>{book.editora}</td>
-                                <td>{book.edicao}</td>
-                                <td>{book.ano_publicacao}</td>
-                                <td>{ formatCurrencyBR(book.valor) }</td>
+                                <td>{book.titulo || "Livro não encontrado"}</td>
+                                <td>{book.editora || "-"}</td>
+                                <td>{book.edicao || "-"}</td>
+                                <td>{book.ano_publicacao || "-"}</td>
+                                <td>{book.valor ? formatCurrencyBR(book.valor) : "-"}</td>
                             </tr>
                         </tbody>
                     </table>

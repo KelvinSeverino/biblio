@@ -1,49 +1,48 @@
-import axios from "axios";
-
-const booksAPI = axios.create({baseURL: "http://localhost:8080/api/livros"})
+import apiService from "./apiService";
 
 async function getBooks() {    
     try {
-        const response = await booksAPI.get("")  
-        return response.data
+        const response = await apiService.get("/livros");  
+        return response.data;
     } catch (e) {
-        console.log("something Wrong");
-        return;
+        throw e; // Lanca o erro para ser tratado no apiService
     }
 }
 
 async function getById(id) {    
     try {
-        const response = await booksAPI.get(`/${id}`)   
-        return response.data
+        const response = await apiService.get(`/livros/${id}`);   
+        return response.data;
     } catch (e) {
-        console.log("something Wrong");
+        throw e;
     }
 }
 
 async function storeBook(bookFields) {
     try {
-        const response = await booksAPI.post('', bookFields);
+        const response = await apiService.post("/livros", bookFields);
         return response.data;
     } catch (e) {
-        const errorMessage = e.response.data;
-        return { error: errorMessage };
+        throw e;
     }
 }
 
 async function updateBook(id, bookFields) {
     try {
-        const response = await booksAPI.put(`/${id}`, bookFields);
+        const response = await apiService.put(`/livros/${id}`, bookFields);
         return response.data;
     } catch (e) {
-        const errorMessage = e.response.data;
-        return { error: errorMessage };
+        throw e;
     }
 }
 
 async function destroyBook(id) {
-    await booksAPI.delete(`/${id}`)
-    
+    try {
+        const response = await apiService.delete(`/livros/${id}`);
+        return response.data;
+    } catch (e) {
+        throw e;
+    }
 }
 
 export {
@@ -52,4 +51,4 @@ export {
     storeBook,
     updateBook,
     destroyBook,
-}
+};
