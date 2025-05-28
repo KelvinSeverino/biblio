@@ -1,34 +1,29 @@
-import axios from 'axios';
-
-const reportsAPI = axios.create({ baseURL: "http://localhost:8080/api/relatorios" });
+import apiService from "./apiService";
 
 async function fetchReportData() {    
     try {
-        const response = await reportsAPI.get("");  
+        const response = await apiService.get("/relatorios");  
         return response.data;
     } catch (e) {
-        console.error("Erro ao buscar dados do relatório:", e);
-        return;
+        throw e; // Lanca o erro para ser tratado no apiService
     }
 }
 
 async function downloadPDF() {    
     try {
-        const response = await reportsAPI.get('/pdf', { responseType: 'blob' });
+        const response = await apiService.get("/relatorios/pdf", { responseType: "blob" });
         return response;
     } catch (e) {
-        console.error("Erro ao baixar PDF:", e);
-        return;
+        throw e;
     }
 }
 
 async function downloadCsv() {    
     try {
-        const response = await reportsAPI.get('/csv', { responseType: 'blob' });
+        const response = await apiService.get("/relatorios/csv", { responseType: "blob" });
         return response;
     } catch (e) {
-        console.error("Erro ao baixar CSV:", e);
-        return;
+        throw e;
     }
 }
 

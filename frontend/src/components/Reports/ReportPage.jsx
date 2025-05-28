@@ -3,14 +3,22 @@ import { fetchReportData, downloadPDF, downloadCsv } from '../../services/report
 
 const ReportPage = () => {
     const [data, setData] = useState([]);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetchReportData();
-                setData(response);
-            } catch (error) {
-                console.error('Erro ao buscar relatório:', error);
+                const reportData = await fetchReportData();
+
+                if (!Array.isArray(reportData)) {
+                    throw new Error("Erro ao carregar relatório.");
+                }
+
+                setData(reportData);
+                setErrorMessage(null);
+            } catch (e) {
+                setData([]);
+                setErrorMessage(e.error || "Falha ao obter os dados do relatório.");
             }
         };
 
@@ -18,26 +26,36 @@ const ReportPage = () => {
     }, []);
 
     const handleDownload = async (type) => {
-        const downloadFn = type === 'pdf' ? downloadPDF : downloadCsv;
-        const response = await downloadFn();
+        try {
+            const downloadFn = type === 'pdf' ? downloadPDF : downloadCsv;
+            const response = await downloadFn();
 
-        if (!response) return;
+            if (!response) {
+                throw new Error("Erro ao gerar o arquivo.");
+            }
 
-        const blob = new Blob([response.data], { type: response.headers['content-type'] });
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = `relatorio-livros-por-autor.${type}`;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        window.URL.revokeObjectURL(url);
+            const blob = new Blob([response.data], { type: response.headers['content-type'] });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `relatorio-livros-por-autor.${type}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+        } catch (e) {
+            setErrorMessage(e.error || "Falha ao baixar o arquivo.");
+        }
     };
 
     return (
         <div className="container mt-5">
             <div className="card shadow-sm p-4">
                 <h2 className="text-center text-primary mb-4">📖 Relatório de Livros por Autor</h2>
+
+                {errorMessage && (
+                    <div className="alert alert-danger">{errorMessage}</div>
+                )}
                 
                 <div className="d-flex justify-content-center gap-3 mb-4">
                     <button onClick={() => handleDownload('pdf')} className="btn btn-outline-danger">
@@ -61,7 +79,7 @@ const ReportPage = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            {Array.isArray(data) && data.length > 0 ? (
+                            {data.length > 0 ? (
                                 data.map((item) => (
                                     <tr key={item.id_seq} className="text-center">
                                         <td>{item.autor_nome}</td>
