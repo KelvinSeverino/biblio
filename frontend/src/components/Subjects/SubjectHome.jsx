@@ -19,18 +19,15 @@ const SubjectHome = () => {
             ...subjectField,
             [e.target.name]: e.target.value
         });
-        // console.log(subjectField);
     }
 
     const onSubmitChange = async (e) => {
         e.preventDefault();
         try {
-            const response = await storeSubject(subjectField);            
-            if(response.error) throw response.error;
-
+            await storeSubject(subjectField);            
             setLoading(true);
         } catch (e) {     
-            setErrorMessage(e.message);     
+            setErrorMessage(e.error);
         }
     }
     if(loading){
@@ -58,7 +55,7 @@ const SubjectHome = () => {
                     <div className='col-md-4'>
                         <h3>Informe Dados do Assunto</h3>
                         <form>
-                            {errorMessage && <div className='text-danger'>{errorMessage}</div>}
+                            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                             <div className='row'>
                                 <div className='col-12'>
                                     <div className="mt-2">

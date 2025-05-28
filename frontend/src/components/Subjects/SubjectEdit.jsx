@@ -15,13 +15,13 @@ const SubjectEdit = () => {
 
     useEffect(() => {
         const fetchSubject = async () => {
-            const subjectData = await getById(id);
-
-            setSubjectField({
-            ...subjectData,
-            });
+            try {
+                const subjectData = await getById(id);
+                setSubjectField(subjectData);
+            } catch (e) {
+                setErrorMessage(e.error); // 🔹 Agora usa a mensagem tratada pelo `apiService.js`
+            }
         };
-
         fetchSubject();
     }, [id]);
 
@@ -30,20 +30,17 @@ const SubjectEdit = () => {
             ...subjectField,
             [e.target.name]: e.target.value
         });
-        // console.log(subjectField);
     }
 
     const onSubmitChange = async (e) => {
         e.preventDefault();
         try {
-            const response = await updateSubject(id, subjectField);            
-            if(response.error) throw response.error;
-
-            navigate('/assuntos');
-        } catch (e) {     
-            setErrorMessage(e.message);     
+            await updateSubject(id, subjectField);
+            navigate("/assuntos");
+        } catch (e) {
+            setErrorMessage(e.error);
         }
-    }
+    };
     
     const clickToBackHandler = () => {
         navigate('/assuntos');
@@ -68,7 +65,7 @@ const SubjectEdit = () => {
             <Header title="Editar Assunto"/>
             <div className='col-12 pt-4'>
                 <form>
-                    {errorMessage && <div className='text-danger'>{errorMessage}</div>}
+                    {errorMessage && (<div className="alert alert-danger">{errorMessage}</div>)}
                     <div className='row'>
                         <div className='col-12'>
                             <div className="mt-2">

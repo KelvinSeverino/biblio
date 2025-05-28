@@ -5,16 +5,22 @@ import Header from '../Header/Header';
 
 const SubjectView = () => {
     const {id} = useParams();
-
-    const [subject, setSubject] = useState([]);
     const navigate = useNavigate();
+    
+    const [subject, setSubject] = useState([]);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(() => {
         const fetchSubject = async () => {        
-            const subjectData = await getById(id);
-            // console.log(subjectData)
-            setSubject(subjectData)
-        }
+            try {
+                const subjectData = await getById(id);
+                setSubject(subjectData);
+                setErrorMessage(null);
+            } catch (e) {
+                setSubject({});
+                setErrorMessage(e.error);
+            }
+        };
 
         fetchSubject();
     }, [id]);
@@ -26,6 +32,11 @@ const SubjectView = () => {
     return <div>
         <div className="container-fluid">
             <Header title="Assunto"/>
+
+            {errorMessage && (
+                <div className="alert alert-danger">{errorMessage}</div>
+            )}
+
             <div className='row pt-4'>
                 <div className='col-md-12'>
                     <table className="table">
@@ -36,7 +47,7 @@ const SubjectView = () => {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{subject.descricao}</td> 
+                                <td>{subject.descricao || "Assunto não encontrado"}</td> 
                             </tr> 
                         </tbody>
                     </table>

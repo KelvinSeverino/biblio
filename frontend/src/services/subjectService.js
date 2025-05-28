@@ -1,49 +1,48 @@
-import axios from "axios";
-
-const subjectsAPI = axios.create({baseURL: "http://localhost:8080/api/assuntos"})
+import apiService from "./apiService";
 
 async function getSubjects() {    
     try {
-        const response = await subjectsAPI.get("")  
-        return response.data
+        const response = await apiService.get("/assuntos");  
+        return response.data;
     } catch (e) {
-        console.log("something Wrong");
-        return;
+        throw e; // 🔹 Lançamos o erro tratado pelo `apiService.js`
     }
 }
 
 async function getById(id) {    
     try {
-        const response = await subjectsAPI.get(`/${id}`)   
-        return response.data
+        const response = await apiService.get(`/assuntos/${id}`);   
+        return response.data;
     } catch (e) {
-        console.log("something Wrong");
+        throw e; 
     }
 }
 
 async function storeSubject(subjectFields) {
     try {
-        const response = await subjectsAPI.post('', subjectFields);
+        const response = await apiService.post("/assuntos", subjectFields);
         return response.data;
     } catch (e) {
-        const errorMessage = e.response.data;
-        return { error: errorMessage };
+        throw e;
     }
 }
 
 async function updateSubject(id, subjectFields) {
     try {
-        const response = await subjectsAPI.put(`/${id}`, subjectFields);
+        const response = await apiService.put(`/assuntos/${id}`, subjectFields);
         return response.data;
     } catch (e) {
-        const errorMessage = e.response.data;
-        return { error: errorMessage };
+        throw e;
     }
 }
 
 async function destroySubject(id) {
-    await subjectsAPI.delete(`/${id}`)
-    
+    try {
+        const response = await apiService.delete(`/assuntos/${id}`);
+        return response.data;
+    } catch (e) {
+        throw e;
+    }
 }
 
 export {
@@ -52,4 +51,4 @@ export {
     storeSubject,
     updateSubject,
     destroySubject,
-}
+};
