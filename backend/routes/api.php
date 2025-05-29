@@ -3,7 +3,7 @@
 use App\Http\Controllers\Api\{
     AssuntoController,
     AutorController,
-    LivroController,
+    BookController,
     ReportController
 };
 use Illuminate\Http\Request;
@@ -13,7 +13,7 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::apiResource('livros', LivroController::class);
+Route::apiResource('livros', BookController::class);
 Route::apiResource('autores', AutorController::class);
 Route::apiResource('assuntos', AssuntoController::class);
 
