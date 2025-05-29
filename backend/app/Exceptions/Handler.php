@@ -71,10 +71,52 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof QueryException) {
-            return response()->json([
-                'message' => 'Erro no banco de dados.',
-                'error' => $exception->getMessage(),
-            ], 500);
+            $errorInfo = $exception->errorInfo;
+            $sqlState = $errorInfo[0] ?? null; // SQLSTATE
+            $errorCode = $errorInfo[1] ?? null; // Código interno do banco
+
+            switch (true) {
+                case ($sqlState === '23000' || $errorCode == 23000):
+                    return response()->json([
+                        'message' => 'Erro ao inserir no banco de dados: chave duplicada.',
+                    ], 400);
+
+                case ($sqlState === '1452' || $errorCode == 1452):
+                    return response()->json([
+                        'message' => 'Erro: tentativa de criar um registro com uma chave estrangeira inexistente.',
+                    ], 400);
+
+                case ($sqlState === '42S22' || $errorCode == 1054):
+                    return response()->json([
+                        'message' => 'Erro no banco de dados: coluna desconhecida na consulta.',
+                    ], 500);
+
+                case ($sqlState === '42S02' || $errorCode == 1146):
+                    return response()->json([
+                        'message' => 'Erro crítico: tabela de banco de dados não encontrada.',
+                    ], 500);
+
+                case ($sqlState === '22001' || $errorCode == 1406):
+                    return response()->json([
+                        'message' => 'Erro: um dos campos ultrapassa o tamanho permitido pelo banco.',
+                    ], 400);
+
+                case ($sqlState === '40001' || $errorCode == 1213):
+                    return response()->json([
+                        'message' => 'Erro de concorrência: um deadlock foi detectado.',
+                    ], 500);
+
+                case ($sqlState === 'HY000' || $errorCode == 1205):
+                    return response()->json([
+                        'message' => 'Erro: tempo limite excedido ao acessar o banco de dados.',
+                    ], 500);
+
+                default:
+                    return response()->json([
+                        'message' => 'Erro inesperado no banco de dados.',
+                        'error' => config('app.debug') ? $exception->getMessage() : 'Consulte o administrador.',
+                    ], 500);
+            }
         }
         
         return parent::render($request, $exception);
