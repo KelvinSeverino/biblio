@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\{
-    AssuntoController,
     AuthorController,
     BookController,
-    ReportController
+    ReportController,
+    SubjectController,
 };
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -15,7 +15,7 @@ Route::get('/user', function (Request $request) {
 
 Route::apiResource('livros', BookController::class);
 Route::apiResource('autores', AuthorController::class);
-Route::apiResource('assuntos', AssuntoController::class);
+Route::apiResource('assuntos', SubjectController::class);
 
 Route::prefix('relatorios')->group(function () {
     Route::get('/', [ReportController::class, 'index']);
