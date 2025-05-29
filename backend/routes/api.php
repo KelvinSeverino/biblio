@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\{
     AssuntoController,
-    AutorController,
+    AuthorController,
     BookController,
     ReportController
 };
@@ -14,7 +14,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::apiResource('livros', BookController::class);
-Route::apiResource('autores', AutorController::class);
+Route::apiResource('autores', AuthorController::class);
 Route::apiResource('assuntos', AssuntoController::class);
 
 Route::prefix('relatorios')->group(function () {

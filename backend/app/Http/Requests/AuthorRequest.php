@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Log;
 
-class AutorRequest extends FormRequest
+class AuthorRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
