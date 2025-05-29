@@ -2,64 +2,32 @@
 
 namespace App\Services;
 
-use App\Models\LivroPorAutor;
-use Barryvdh\DomPDF\Facade\Pdf;
+use App\Repositories\ReportRepository;
+use App\Utils\PdfGenerator;
+use App\Utils\CsvGenerator;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Http\Response;
 
 class ReportService
 {
-    public function getData()
+    public function __construct(
+        protected ReportRepository $reportRepository,
+        protected PdfGenerator $pdfGenerator,
+        protected CsvGenerator $csvGenerator
+    ) {}
+
+    public function getReportData()
     {
-        return LivroPorAutor::all();
+        return $this->reportRepository->getAll();
     }
 
-    public function generatePDF()
+    public function generatePDF(): Response
     {
-        $data = $this->getData();
-        $pdf = PDF::loadView('reports.livros_por_autor', compact('data'));
-        return $pdf->download('relatorio-livros-por-autor.pdf');
+        return $this->pdfGenerator->createPDF('reports.livros_por_autor', $this->getReportData(), 'relatorio-livros-por-autor.pdf');
     }
 
-    public function generateCsv()
+    public function generateCSV(): StreamedResponse
     {
-        $filePath = storage_path('app/public/relatorio-livros-por-autor.csv');
-        $file = fopen($filePath, 'w');
-
-        // Cabeçalhos do CSV
-        fputcsv($file, [
-            'ID Sequencial',
-            'Autor ID',
-            'Autor Nome',
-            'Livro ID',
-            'Título',
-            'Editora',
-            'Edição',
-            'Ano de Publicação',
-            'Assunto'
-        ]);
-
-        // Obtendo os dados do banco
-        $data = LivroPorAutor::all();
-
-        foreach ($data as $item) {
-            fputcsv($file, [
-                $item->id_seq,
-                $item->autor_id,
-                $item->autor_nome,
-                $item->livro_id,
-                $item->titulo,
-                $item->editora,
-                $item->edicao,
-                $item->ano_publicacao,
-                $item->assunto
-            ]);
-        }
-
-        fclose($file);
-
-        return response()->streamDownload(function () use ($filePath) {
-            readfile($filePath);
-        }, 'relatorio-livros-por-autor.csv', [
-            'Content-Type' => 'text/csv',
-        ]);
+        return $this->csvGenerator->createCSV($this->getReportData(), 'relatorio-livros-por-autor.csv');
     }
 }

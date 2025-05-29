@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Services\ReportService;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class ReportController extends Controller
 {
@@ -15,17 +17,17 @@ class ReportController extends Controller
         $this->reportService = $reportService;
     }
 
-    public function index()
+    public function index(): JsonResponse
     {
-        return response()->json($this->reportService->getData());
+        return response()->json($this->reportService->getReportData());
     }
 
-    public function pdf()
+    public function pdf(): Response
     {
         return $this->reportService->generatePDF();
     }
 
-    public function csv()
+    public function csv(): StreamedResponse
     {
         return $this->reportService->generateCsv();
     }
