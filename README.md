@@ -9,7 +9,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 * docker-compose
 * npm
 
-### 💻 Como executar BACKEND
+### 💻 Como executar o PROJETO
 
 Baixar repositório
 ```sh
@@ -85,3 +85,10 @@ Feito os processo acima, você poderá acessar e consumir as rotas disponibiliza
 
 * BackEnd API Laravel - [http://localhost:8080](http://localhost:8080)
 * FrontEnd React - [http://localhost:5173/](http://localhost:5173/)
+
+## 📂 Arquivos Auxiliares
+O projeto inclui materiais para facilitar o entendimento da API:
+
+📌 **Consumo da API via Postman**  
+📜 Arquivo: `backend/docs/API-Biblio_Challenge.postman_collection.json`  
+📜 Como usar: **Importe no Postman para testar as rotas da API.**
