@@ -35,7 +35,7 @@ Atualize as variáveis de ambiente do arquivo .env
 ```sh
 APP_NAME=Biblio_Challenge
 APP_ENV=local
-APP_KEY=base64:uuGARHs1G39HPMxPBYhOBjB4hBGWcHH93TqaX0RVrJs=
+APP_KEY=
 APP_DEBUG=true
 APP_URL=http://localhost:8080
 
