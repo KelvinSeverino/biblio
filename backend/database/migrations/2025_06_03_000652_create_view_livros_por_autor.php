@@ -8,6 +8,10 @@ return new class extends Migration
 {
     public function up()
     {
+        if (app()->environment('testing')) {
+            return; // não cria a view durante os testes
+        }
+
         DB::statement("
             CREATE OR REPLACE VIEW view_livros_por_autor AS
             SELECT
