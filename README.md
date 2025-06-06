@@ -3,6 +3,30 @@
 ## ❓ Para que serve?
 Este repositorio se trata de um projeto de Backend desenvolvido em Laravel 12 na estrutura de API e Frontend React.js para Gerenciamento de Livros.
 
+## 🏗️ Arquitetura e Princípios
+O projeto segue boas práticas como:
+- **SOLID**
+- **Clean Code**
+
+## 🔧 Tecnologias e Estrutura
+
+### 🖥️ Backend (Laravel)
+O backend foi desenvolvido com Laravel e segue uma estrutura modular para garantir organização e escalabilidade:
+- **Handler Global** para tratamento de exceções
+- **Repositories** para abstração de acesso aos dados
+- **Services** para lógica de negócios
+- **Utils** (gerador de **PDF** e gerador de **CSV**)
+- **Migrations, Seeders, Factories** para gerenciamento do banco de dados
+- **Testes Unitários** para garantir qualidade do código
+- **CRUD de APIs** para **Livro, Autor e Assunto** baseado no modelo de dados
+
+### 🎨 Frontend (React)
+A interface foi construída utilizando:
+- **React.js**
+- **Bootstrap**
+- **CSS**
+- **HTML**
+
 ## 💻 Pré-requisitos
 Antes de começar, verifique se você atendeu aos seguintes requisitos:
 * docker
