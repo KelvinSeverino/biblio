@@ -144,3 +144,13 @@ O projeto inclui materiais para facilitar o entendimento da API:
 📌 **Consumo da API via Postman**  
 📜 Arquivo: `backend/docs/API-Biblio_Challenge.postman_collection.json`  
 📜 Como usar: **Importe no Postman para testar as rotas da API.**
+
+## ✅ Testes automatizados
+Este projeto possui testes automatizados no backend.
+
+### Como rodar os testes
+Para executar os testes, você pode rodar o seguinte comando dentro do container Docker do backend (ou diretamente na máquina local se tiver o ambiente configurado):
+
+```sh
+docker exec -it biblio_app php artisan test
+```
