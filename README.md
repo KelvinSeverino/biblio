@@ -67,6 +67,11 @@ APP_LOCALE=pt_BR
 APP_FALLBACK_LOCALE=pt_BR
 APP_FAKER_LOCALE=pt_BR
 
+L5_FORMAT_TO_USE_FOR_DOCS=json
+L5_SWAGGER_ROUTE=api/documentation
+L5_SWAGGER_GENERATE_ALWAYS=true
+L5_SWAGGER_CONST_HOST=http://localhost:8080
+
 DB_CONNECTION=mysql
 DB_HOST=db
 DB_PORT=3306
@@ -107,8 +112,31 @@ docker exec -it biblio_app php artisan migrate:fresh --seed
 
 Feito os processo acima, você poderá acessar e consumir as rotas disponibilizadas abaixo.
 
-* BackEnd API Laravel - [http://localhost:8080](http://localhost:8080)
-* FrontEnd React - [http://localhost:5173/](http://localhost:5173/)
+* Backend API Laravel - [http://localhost:8080](http://localhost:8080)
+* Frontend React - [http://localhost:5173/](http://localhost:5173/)
+
+## 📖 Documentação da API com Swagger
+O projeto possui uma documentação interativa da API utilizando Swagger, permitindo visualizar e testar os endpoints facilmente.
+
+📌 **Como acessar a documentação Swagger**
+Após iniciar os containers, acesse a documentação da API pelo navegador:
+
+- 🔗 **Swagger UI:** [http://localhost:8080/api/documentation](http://localhost:8080/api/documentation)
+- 🔗 **Swagger JSON:** [http://localhost:8080/docs](http://localhost:8080/docs)
+
+🔧 **Gerar e atualizar a documentação**
+Se precisar atualizar a documentação, execute:
+
+```sh
+docker exec -it biblio_app php artisan l5-swagger:generate
+```
+
+### 📂 Arquivos relacionados
+O projeto inclui a configuração do Swagger nos seguintes diretórios:
+ - Documentação dos endpoints: `backend/app/Docs/Endpoints`
+ - Schemas da API: `backend/app/Docs/Schemas`
+ - Configuração geral: `backend/app/Docs/ApiInfo.php`
+ - Arquivo de configuração: `backend/config/l5-swagger.php`
 
 ## 📂 Arquivos Auxiliares
 O projeto inclui materiais para facilitar o entendimento da API:

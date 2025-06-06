@@ -1,0 +1,543 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Biblio - API de Livros",
+        "description": "Documentação da API de gerenciamento de livros",
+        "contact": {
+            "email": "seu.email@example.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8080",
+            "description": "Servidor principal"
+        }
+    ],
+    "paths": {
+        "/api/autores": {
+            "get": {
+                "tags": [
+                    "Autores"
+                ],
+                "summary": "Lista todos os autores",
+                "operationId": "da8a111b48771a4991d60af191940cc6",
+                "responses": {
+                    "200": {
+                        "description": "Lista de autores"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Autores"
+                ],
+                "summary": "Cria um novo autor",
+                "operationId": "76f76ea449bafc97bfb587bc8bd7931e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthorRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Autor criado com sucesso"
+                    }
+                }
+            }
+        },
+        "/api/autores/{id}": {
+            "get": {
+                "tags": [
+                    "Autores"
+                ],
+                "summary": "Obtém um autor pelo ID",
+                "operationId": "f5479e0062d151dd4539d660330a753f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do autor"
+                    },
+                    "404": {
+                        "description": "Autor não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Autores"
+                ],
+                "summary": "Atualiza um autor pelo ID",
+                "operationId": "82fe8aeb1f67b81f7dc6ff483b8376ec",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/AuthorRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Autor atualizado com sucesso"
+                    },
+                    "404": {
+                        "description": "Autor não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Autores"
+                ],
+                "summary": "Exclui um autor pelo ID",
+                "operationId": "94f2e08674f00d9f6830b00378644e8c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Autor excluído com sucesso"
+                    },
+                    "404": {
+                        "description": "Autor não encontrado"
+                    }
+                }
+            }
+        },
+        "/api/livros": {
+            "get": {
+                "tags": [
+                    "Livros"
+                ],
+                "summary": "Lista todos os livros",
+                "operationId": "9d366044f9fd7787f9c0e29d6b9da5c9",
+                "responses": {
+                    "200": {
+                        "description": "Lista de livros"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Livros"
+                ],
+                "summary": "Cria um novo livro",
+                "operationId": "8a1cfd1dd4b7b3cabefb415d4c0219b8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BookRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Livro criado com sucesso"
+                    }
+                }
+            }
+        },
+        "/api/livros/{id}": {
+            "get": {
+                "tags": [
+                    "Livros"
+                ],
+                "summary": "Obtém um livro pelo ID",
+                "operationId": "04065b4c2e8e0643306d05a4efe15a2d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do livro"
+                    },
+                    "404": {
+                        "description": "Livro não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Livros"
+                ],
+                "summary": "Atualiza um livro pelo ID",
+                "operationId": "8bd284988dd979735ae1f70f79becc95",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/BookRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Livro atualizado com sucesso"
+                    },
+                    "404": {
+                        "description": "Livro não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Livros"
+                ],
+                "summary": "Exclui um livro pelo ID",
+                "operationId": "631cc7cdf627a6adaa74738c4c129550",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Livro excluído com sucesso"
+                    },
+                    "404": {
+                        "description": "Livro não encontrado"
+                    }
+                }
+            }
+        },
+        "/api/relatorios": {
+            "get": {
+                "tags": [
+                    "Relatórios"
+                ],
+                "summary": "Lista dados do relatório",
+                "operationId": "e08f9222b7b89fe24e360835919e65da",
+                "responses": {
+                    "200": {
+                        "description": "Dados do relatório em JSON"
+                    }
+                }
+            }
+        },
+        "/api/relatorios/pdf": {
+            "get": {
+                "tags": [
+                    "Relatórios"
+                ],
+                "summary": "Gera um relatório em PDF",
+                "operationId": "6679794469f1c429aac7084d77f31f36",
+                "responses": {
+                    "200": {
+                        "description": "Arquivo PDF gerado",
+                        "content": {
+                            "application/pdf": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/relatorios/csv": {
+            "get": {
+                "tags": [
+                    "Relatórios"
+                ],
+                "summary": "Gera um relatório em CSV",
+                "operationId": "703524cb7ebbc73722a6ad9cfc7249dc",
+                "responses": {
+                    "200": {
+                        "description": "Arquivo CSV gerado",
+                        "content": {
+                            "text/csv": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/assuntos": {
+            "get": {
+                "tags": [
+                    "Assuntos"
+                ],
+                "summary": "Lista todos os assuntos",
+                "operationId": "def704a88eda76bebc18660e95325da4",
+                "responses": {
+                    "200": {
+                        "description": "Lista de assuntos"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Assuntos"
+                ],
+                "summary": "Cria um novo assunto",
+                "operationId": "44c43b98dcaaadf0fc1b212f1c2ef8ae",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SubjectRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Assunto criado com sucesso"
+                    }
+                }
+            }
+        },
+        "/api/assuntos/{id}": {
+            "get": {
+                "tags": [
+                    "Assuntos"
+                ],
+                "summary": "Obtém um assunto pelo ID",
+                "operationId": "5f3679af72f893d72a97b572b2349c01",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalhes do assunto"
+                    },
+                    "404": {
+                        "description": "Assunto não encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Assuntos"
+                ],
+                "summary": "Atualiza um assunto pelo ID",
+                "operationId": "a5caf7a906d7beb7bef25517418d0cdf",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SubjectRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Assunto atualizado com sucesso"
+                    },
+                    "404": {
+                        "description": "Assunto não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Assuntos"
+                ],
+                "summary": "Exclui um assunto pelo ID",
+                "operationId": "221451d19fc0c6cfbf7efe33707eaf80",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Assunto excluído com sucesso"
+                    },
+                    "404": {
+                        "description": "Assunto não encontrado"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "AuthorRequest": {
+                "required": [
+                    "nome"
+                ],
+                "properties": {
+                    "nome": {
+                        "description": "Nome do autor (deve ser único)",
+                        "type": "string",
+                        "maxLength": 40
+                    }
+                },
+                "type": "object"
+            },
+            "BookRequest": {
+                "required": [
+                    "titulo",
+                    "editora",
+                    "edicao",
+                    "ano_publicacao",
+                    "valor",
+                    "autores",
+                    "assuntos"
+                ],
+                "properties": {
+                    "titulo": {
+                        "type": "string",
+                        "maxLength": 40
+                    },
+                    "editora": {
+                        "type": "string",
+                        "maxLength": 40
+                    },
+                    "edicao": {
+                        "type": "integer",
+                        "minimum": 1
+                    },
+                    "ano_publicacao": {
+                        "type": "integer",
+                        "pattern": "^\\d{4}$"
+                    },
+                    "valor": {
+                        "type": "number",
+                        "format": "float",
+                        "minimum": 0
+                    },
+                    "autores": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "minItems": 1
+                    },
+                    "assuntos": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        },
+                        "minItems": 1
+                    }
+                },
+                "type": "object"
+            },
+            "SubjectRequest": {
+                "required": [
+                    "descricao"
+                ],
+                "properties": {
+                    "descricao": {
+                        "description": "Descrição do assunto (deve ser única)",
+                        "type": "string",
+                        "maxLength": 40
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Livros",
+            "description": "Gerenciamento de livros"
+        },
+        {
+            "name": "Autores",
+            "description": "Gerenciamento de autores"
+        },
+        {
+            "name": "Assuntos",
+            "description": "Gerenciamento de assuntos"
+        },
+        {
+            "name": "Relatórios",
+            "description": "Geração de relatórios em diferentes formatos"
+        }
+    ]
+}
