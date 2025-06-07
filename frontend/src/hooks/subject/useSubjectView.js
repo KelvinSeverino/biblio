@@ -10,7 +10,7 @@ const useSubjectView = (id) => {
             try {
                 const subjectData = await getById(id);
                 setSubject(subjectData);
-                setsetErrorMessage(null);
+                setErrorMessage(null);
             } catch (e) {
                 setSubject({});
                 setErrorMessage(e.error);

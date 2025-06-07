@@ -9,6 +9,7 @@ import AuthorCreate from './components/Authors/AuthorCreate';
 import AuthorView from "./components/Authors/AuthorView";
 import AuthorEdit from "./components/Authors/AuthorEdit";
 import SubjectHome from './components/Subjects/SubjectHome';
+import SubjectCreate from './components/Subjects/SubjectCreate';
 import SubjectView from "./components/Subjects/SubjectView";
 import SubjectEdit from "./components/Subjects/SubjectEdit";
 import ReportPage from "./components/Reports/ReportPage";
@@ -32,8 +33,9 @@ function App() {
           <Route exact path="/autores/editar/:id" element={<AuthorEdit />}/>
           
           <Route exact path="/assuntos" element={<SubjectHome />} />
-          <Route exact path="/assuntos/view/:id" element={<SubjectView />}/>
-          <Route exact path="/assuntos/edit/:id" element={<SubjectEdit />}/>
+          <Route exact path="/assuntos/criar" element={<SubjectCreate />}/>
+          <Route exact path="/assuntos/visualizar/:id" element={<SubjectView />}/>
+          <Route exact path="/assuntos/editar/:id" element={<SubjectEdit />}/>
 
           
           <Route exact path="/relatorio" element={<ReportPage />} />
