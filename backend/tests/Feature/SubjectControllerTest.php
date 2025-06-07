@@ -57,7 +57,7 @@ class SubjectControllerTest extends TestCase
     /** @test */
     public function deve_retornar_404_para_assunto_nao_encontrado()
     {
-        $response = $this->getJson('/api/assuntos/99999');
+        $response = $this->getJson('/api/assuntos/999');
 
         $response->assertStatus(404);
     }
@@ -75,6 +75,27 @@ class SubjectControllerTest extends TestCase
             ->assertJsonFragment(['descricao' => 'Descricao Atualizada']);
 
         $this->assertDatabaseHas('assuntos', ['descricao' => 'Descricao Atualizada']);
+    }    
+
+    /** @test */
+    public function deve_retornar_erro_ao_atualizar_assunto_com_descricao_faltando()
+    {
+        $assunto = Assunto::factory()->create();
+
+        $response = $this->putJson("/api/assuntos/{$assunto->codas}", []);
+
+        $response->assertStatus(422)
+                ->assertJsonValidationErrors(['descricao']);
+    }    
+
+    /** @test */
+    public function deve_retornar_404_ao_atualizar_assunto_inexistente()
+    {
+        $data = ['descricao' => 'Descricao Atualizada'];
+
+        $response = $this->putJson('/api/assuntos/999', $data);
+
+        $response->assertStatus(404);
     }
 
     /** @test */
@@ -87,5 +108,13 @@ class SubjectControllerTest extends TestCase
         $response->assertNoContent();
 
         $this->assertDatabaseMissing('assuntos', ['codas' => $assunto->codas]);
+    }    
+
+    /** @test */
+    public function deve_retornar_404_ao_deletar_assunto_inexistente()
+    {
+        $response = $this->deleteJson('/api/assuntos/999');
+
+        $response->assertStatus(404);
     }
 }

@@ -35,7 +35,6 @@ class AuthorRequest extends FormRequest
         } elseif ($this->isMethod('put') || $this->isMethod('patch')) {
             return [
                 'nome' => [
-                    'sometimes',
                     'required',
                     'string',
                     'max:40',

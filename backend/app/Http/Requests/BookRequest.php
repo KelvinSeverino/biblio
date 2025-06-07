@@ -36,11 +36,11 @@ class BookRequest extends FormRequest
             ];
         } elseif ($this->isMethod('put') || $this->isMethod('patch')) {
             return [
-                'titulo' => 'sometimes|required|string|max:40',
-                'editora' => 'sometimes|required|string|max:40',
-                'edicao' => 'sometimes|required|integer|min:1',
-                'ano_publicacao' => 'sometimes|required|integer|min:1|digits:4',
-                'valor' => 'sometimes|required|numeric|min:0',                
+                'titulo' => 'required|string|max:40',
+                'editora' => 'required|string|max:40',
+                'edicao' => 'required|integer|min:1',
+                'ano_publicacao' => 'required|integer|min:1|digits:4',
+                'valor' => 'required|numeric|min:0',                
 
                 'autores' => 'required|array|min:1',
                 'autores.*' => 'integer|exists:autores,codau',

@@ -57,7 +57,7 @@ class AuthorControllerTest extends TestCase
     /** @test */
     public function deve_retornar_404_para_autor_nao_encontrado()
     {
-        $response = $this->getJson('/api/autores/99999');
+        $response = $this->getJson('/api/autores/999');
 
         $response->assertStatus(404);
     }
@@ -78,6 +78,27 @@ class AuthorControllerTest extends TestCase
     }
 
     /** @test */
+    public function deve_retornar_erro_ao_atualizar_autor_com_nome_faltando()
+    {
+        $autor = Autor::factory()->create();
+
+        $response = $this->putJson("/api/autores/{$autor->codau}", []);
+
+        $response->assertStatus(422)
+                ->assertJsonValidationErrors(['nome']);
+    }
+
+    /** @test */
+    public function deve_retornar_404_ao_atualizar_autor_inexistente()
+    {
+        $data = ['nome' => 'Nome Atualizado'];
+
+        $response = $this->putJson('/api/autores/999', $data);
+
+        $response->assertStatus(404);
+    }
+
+    /** @test */
     public function deve_excluir_um_autor()
     {
         $autor = Autor::factory()->create();
@@ -87,5 +108,13 @@ class AuthorControllerTest extends TestCase
         $response->assertNoContent();
 
         $this->assertDatabaseMissing('autores', ['codau' => $autor->codau]);
+    }
+
+    /** @test */
+    public function deve_retornar_404_ao_deletar_autor_inexistente()
+    {
+        $response = $this->deleteJson('/api/autores/999');
+
+        $response->assertStatus(404);
     }
 }

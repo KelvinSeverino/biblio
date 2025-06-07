@@ -34,7 +34,6 @@ class SubjectRequest extends FormRequest
         } elseif ($this->isMethod('put') || $this->isMethod('patch')) {
             return [
                 'descricao' => [
-                    'sometimes',
                     'required',
                     'string',
                     'max:40',
