@@ -1,69 +1,23 @@
-import React, { useEffect, useState } from 'react';
-import { fetchReportData, downloadPDF, downloadCsv } from '../../services/reportService';
+import useReportData from '../../hooks/report/useReportData';
+import useDownloadReport from '../../hooks/report/useDownloadReport';
+import Header from '../Header/Header';
 
 const ReportPage = () => {
-    const [data, setData] = useState([]);
-    const [errorMessage, setErrorMessage] = useState(null);
+    const { data, errorMessage: dataError } = useReportData();
+    const { handleDownload, errorMessage: downloadError } = useDownloadReport();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const reportData = await fetchReportData();
-
-                if (!Array.isArray(reportData)) {
-                    throw new Error("Erro ao carregar relatório.");
-                }
-
-                setData(reportData);
-                setsetErrorMessage(null);
-            } catch (e) {
-                setData([]);
-                setErrorMessage(e.error || "Falha ao obter os dados do relatório.");
-            }
-        };
-
-        fetchData();
-    }, []);
-
-    const handleDownload = async (type) => {
-        try {
-            const downloadFn = type === 'pdf' ? downloadPDF : downloadCsv;
-            const response = await downloadFn();
-
-            if (!response) {
-                throw new Error("Erro ao gerar o arquivo.");
-            }
-
-            const blob = new Blob([response.data], { type: response.headers['content-type'] });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `relatorio-livros-por-autor.${type}`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            window.URL.revokeObjectURL(url);
-        } catch (e) {
-            setErrorMessage(e.error || "Falha ao baixar o arquivo.");
-        }
-    };
+    const errorMessage = dataError || downloadError;
 
     return (
         <div className="container mt-5">
             <div className="card shadow-sm p-4">
-                <h2 className="text-center text-primary mb-4">📖 Relatório de Livros por Autor</h2>
+                <Header title="📖 Relatório de Livros por Autor" />
 
-                {errorMessage && (
-                    <div className="alert alert-danger">{errorMessage}</div>
-                )}
-                
-                <div className="d-flex justify-content-center gap-3 mb-4">
-                    <button onClick={() => handleDownload('pdf')} className="btn btn-outline-danger">
-                        📄 Exportar PDF
-                    </button>
-                    <button onClick={() => handleDownload('csv')} className="btn btn-outline-success">
-                        📊 Exportar CSV
-                    </button>
+                {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+
+                <div className="d-flex justify-content-center gap-3 my-4">
+                    <button onClick={() => handleDownload('pdf')} className="btn btn-outline-danger">📄 Exportar PDF</button>
+                    <button onClick={() => handleDownload('csv')} className="btn btn-outline-success">📊 Exportar CSV</button>
                 </div>
 
                 <div className="table-responsive" style={{ maxHeight: '600px', overflowY: 'auto' }}>
