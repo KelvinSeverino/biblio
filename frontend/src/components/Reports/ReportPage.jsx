@@ -9,10 +9,9 @@ const ReportPage = () => {
     const errorMessage = dataError || downloadError;
 
     return (
-        <div className="container mt-5">
-            <div className="card shadow-sm p-4">
-                <Header title="📖 Relatório de Livros por Autor" />
-
+        <div>            
+            <Header />            
+            <div className="container mt-5">
                 {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 
                 <div className="d-flex justify-content-center gap-3 my-4">
