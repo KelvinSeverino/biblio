@@ -1,44 +1,27 @@
-import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { destroySubject, getSubjects } from "../../services/subjectService";
+import useSubjectList from "../../hooks/subject/useSubjectList";
+import useSubjectDelete from "../../hooks/subject/useSubjectDelete";
 
-const SubjectList = () => { 
-    const [subjects, setSubjects] = useState([]);
-    const [error, setErrorMessage] = useState(null);
+const SubjectList = () => {    
+    const { subjects, fetchSubjects, errorMessage: listError } = useSubjectList();
+    const { deleteSubject, errorMessage: deleteError } = useSubjectDelete();
 
-    async function fetchSubjects() {
-        try {
-            const subjectsData = await getSubjects();
-            if (!Array.isArray(subjectsData)) {
-                throw new Error("Erro ao carregar processar assuntos.");
-            }
-
-            setSubjects(subjectsData);
-        } catch (e) {
-            setSubjects([]);
-            setErrorMessage(e.error || "Falha ao obter os assuntos.");
-        }
-    }
-
-    useEffect(() => {
-        fetchSubjects();
-    }, [])  
-
-    async function deleteSubject(id) {
-        try {
-            await destroySubject(id);
-            fetchSubjects();
-        } catch (e) {
-            setErrorMessage(e.error);
-        }
-    }
+    const handleDelete = async (id) => {
+        await deleteSubject(id);
+        await fetchSubjects();
+    };
 
     return(
         <div className="container-fluid">
             <h3>Lista Assuntos</h3>
-            {error && <div className="alert alert-danger">{error}</div>}
-            {!error && subjects.length === 0 && (<div className="alert alert-info">Nenhum assunto encontrado.</div>)}
-            {!error && subjects.length > 0 && (            
+            {listError && <div className="alert alert-danger">{listError}</div>}
+            {deleteError && <div className="alert alert-danger">{deleteError}</div>}
+
+            {!listError && subjects.length === 0 && (
+                <div className="alert alert-info">Nenhum Autor encontrado.</div>
+            )}
+
+            {!listError && subjects.length > 0 && (           
                 <table className="table table-bordered">
                     <thead>
                         <tr>
@@ -55,7 +38,7 @@ const SubjectList = () => {
                                         <td>
                                             <NavLink to={`/assuntos/view/${subject.codas}`} className="btn btn-secondary">Abrir</NavLink>
                                             <NavLink to={`/assuntos/edit/${subject.codas}`} className="btn btn-warning mx-2">Editar</NavLink>
-                                            <button onClick={()=>deleteSubject(subject.codas)} className="btn btn-danger">Apagar</button>
+                                            <button onClick={() => handleDelete(subject.codas)} className="btn btn-danger">Apagar</button>
                                         </td>
                                     </tr>
                                 )

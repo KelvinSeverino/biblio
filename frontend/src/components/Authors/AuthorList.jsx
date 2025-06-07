@@ -1,44 +1,27 @@
-import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { destroyAuthor, getAuthors } from "../../services/authorService";
+import useAuthorList from "../../hooks/author/useAuthorList";
+import useAuthorDelete from "../../hooks/author/useAuthorDelete";
 
-const AuthorList = () => { 
-    const [authors, setAuthors] = useState([]);
-    const [error, setErrorMessage] = useState(null);
+const AuthorList = () => {    
+    const { authors, fetchAuthors, errorMessage: listError } = useAuthorList();
+    const { deleteAuthor, errorMessage: deleteError } = useAuthorDelete();
 
-    async function fetchAuthors() {
-        try {
-            const authorsData = await getAuthors();
-            if (!Array.isArray(authorsData)) {
-                throw new Error("Erro ao carregar processar autores.");
-            }
-
-            setAuthors(authorsData);
-        } catch (e) {
-            setAuthors([]);
-            setErrorMessage(e.error || "Falha ao obter os autores.");
-        }
-    }
-
-    useEffect(() => {
-        fetchAuthors();
-    }, []);
-
-    async function deleteAuthor(id) {
-        try {
-            await destroyAuthor(id);
-            fetchAuthors();
-        } catch (e) {
-            setErrorMessage(e.error);
-        }
-    }
+    const handleDelete = async (id) => {
+        await deleteAuthor(id);
+        await fetchAuthors();
+    };
 
     return (
         <div className="container-fluid">
             <h3>Lista Autores</h3>
-            {error && <div className="alert alert-danger">{error}</div>}
-            {!error && authors.length === 0 && (<div className="alert alert-info">Nenhum autor encontrado.</div>)}
-            {!error && authors.length > 0 && (
+            {listError && <div className="alert alert-danger">{listError}</div>}
+            {deleteError && <div className="alert alert-danger">{deleteError}</div>}
+
+            {!listError && authors.length === 0 && (
+                <div className="alert alert-info">Nenhum Autor encontrado.</div>
+            )}
+
+            {!listError && authors.length > 0 && ( 
                 <table className="table table-bordered">
                     <thead>
                         <tr>
@@ -53,7 +36,7 @@ const AuthorList = () => {
                                 <td>
                                     <NavLink to={`/autores/view/${author.codau}`} className="btn btn-secondary">Abrir</NavLink>
                                     <NavLink to={`/autores/edit/${author.codau}`} className="btn btn-warning mx-2">Editar</NavLink>
-                                    <button onClick={() => deleteAuthor(author.codau)} className="btn btn-danger">Apagar</button>
+                                    <button onClick={() => handleDelete(author.codau)} className="btn btn-danger">Apagar</button>
                                 </td>
                             </tr>
                         ))}

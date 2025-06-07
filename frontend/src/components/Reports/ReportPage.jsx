@@ -15,7 +15,7 @@ const ReportPage = () => {
                 }
 
                 setData(reportData);
-                setErrorMessage(null);
+                setsetErrorMessage(null);
             } catch (e) {
                 setData([]);
                 setErrorMessage(e.error || "Falha ao obter os dados do relatório.");

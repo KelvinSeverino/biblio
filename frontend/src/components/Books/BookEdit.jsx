@@ -1,193 +1,93 @@
-import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getById, updateBook } from '../../services/bookService';
-import { getAuthors } from '../../services/authorService';
-import { getSubjects } from '../../services/subjectService';
 import Header from '../Header/Header';
+import useBookEdit from '../../hooks/book/useBookEdit';
 
-const BookEdit = () => {   
+const BookEdit = () => {
+    const { id } = useParams();
     const navigate = useNavigate();
-    
-    const {id} = useParams();
 
-    const [errorMessage, setErrorMessage] = useState();
-    const [bookField, setBookField] = useState({
-        titulo: "",
-        editora: "",
-        edicao: "",
-        ano_publicacao: "",
-        assuntos: [],
-        autores: [],
-    });
-
-    const [authors, setAuthorData] = useState([]);
-    const [subjects, setSubjectData] = useState([]);
-
-    useEffect(() => {
-        const loadAuthorData = async () => {
-            const data = await getAuthors();
-            setAuthorData(data);
-        };
-
-        const loadSubjectData = async () => {
-            const data = await getSubjects();
-            setSubjectData(data);
-        };        
-
-        loadAuthorData();
-        loadSubjectData();
-    }, []);
-
-    useEffect(() => {
-        const fetchBook = async () => {
-            try {
-                const bookData = await getById(id);
-                setBookField({
-                    ...bookData,
-                    autores: bookData.autores.map(a => String(a.codau)),
-                    assuntos: bookData.assuntos.map(a => String(a.codas)),
-                });
-            } catch (e) {
-                setErrorMessage(e.error); // 🔹 Agora usa a mensagem tratada pelo `apiService.js`
-            }
-        };
-
-        fetchBook();
-    }, [id]);
-
-    const changeBookFieldHandler = (e) => {
-        setBookField({
-            ...bookField,
-            [e.target.name]: e.target.value
-        });
-    }
+    const {
+        bookField,
+        authors,
+        subjects,
+        errorMessage,
+        handleChange,
+        handleMultiSelectChange,
+        handleSubmit
+    } = useBookEdit(id);
 
     const onSubmitChange = async (e) => {
         e.preventDefault();
-        try {
-            await updateBook(id, bookField);
+        const result = await handleSubmit();
+        if (result.success) {
             navigate("/livros");
-        } catch (e) {
-            setErrorMessage(e.error);
         }
-    }
-    
-    const clickToBackHandler = () => {
-        navigate('/livros');
-    }
+    };
 
-    const clickToBackHome = () => {
-        navigate('/');
-    }
+    const handleMultiSelect = (e) => {
+        const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
+        handleMultiSelectChange(e.target.name, selectedValues);
+    };
 
-    const ColoredLine = ({ color }) => (
-        <hr
-            style={{
-                color: color,
-                backgroundColor: color,
-                height: 3
-            }}
-        />
-    );
+    return (
+        <div className="container-fluid">
+            <Header title="Editar Livro" />
 
-    return(
-        <div className='container-fluid'>
-            <Header title="Editar Livro"/>
-            <div className='col-12 pt-4'>
-                <form>
-                    {errorMessage && (<div className="alert alert-danger">{errorMessage}</div>)}
-                    <div className='row'>
-                        <div className='col-6'>
-                            <div className="mt-2">
-                                <label className="form-label">Título:</label>
-                                <input type="text" className="form-control" id="bookname" placeholder="Insira titulo" name="titulo" value={bookField.titulo} onChange={e => changeBookFieldHandler(e)} />
-                            </div>
-                        </div>
-                        <div className='col-6'>
-                            <div className="mt-2">
-                                <label className="form-label">Editora:</label>
-                                <input type="text" className="form-control" id="editora" placeholder="Insira editora" name="editora" value={bookField.editora} onChange={e => changeBookFieldHandler(e)} />
-                            </div>
-                        </div>                        
-                        <div className='col-6 py-2'>
-                            <label className="form-label">Autores:</label>
-                            <select
-                                className="form-control form-select"
-                                id="autores"
-                                name="autores"
-                                multiple
-                                value={bookField.autores.map(String)}
-                                onChange={e => {
-                                    const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
-                                    changeBookFieldHandler({ target: { name: "autores", value: selectedValues } });
-                                }}
-                                >
-                                {authors.map((opcao) => (
-                                    <option key={opcao.codau} value={opcao.codau}>
-                                    {opcao.nome}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
-                        <div className='col-6 py-2'>
-                            <label className="form-label">Assuntos:</label>
-                            <select
-                                className="form-control form-select"
-                                id="assuntos"
-                                name="assuntos"
-                                multiple
-                                value={bookField.assuntos.map(String)}
-                                onChange={e => {
-                                    const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
-                                    changeBookFieldHandler({ target: { name: "assuntos", value: selectedValues } });
-                                }}
-                                >
-                                {subjects.map((opcao) => (
-                                    <option key={opcao.codas} value={String(opcao.codas)}>
-                                    {opcao.descricao}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+            {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
+
+            <form onSubmit={onSubmitChange} className="pt-4">
+                <div className="row">
+                    <div className="col-md-6">
+                        <label className="form-label">Título:</label>
+                        <input type="text" name="titulo" className="form-control" value={bookField.titulo} onChange={handleChange} />
                     </div>
-                    <div className='row'>
-                        <div className='col-3'>
-                            <div className="mt-2">
-                                <label className="form-label">Edição:</label>
-                                <input type="number" step="any" className="form-control" id="edicao" placeholder="Insira edicao" name="edicao" value={bookField.edicao} onChange={e => changeBookFieldHandler(e)} />
-                            </div>
-                        </div>
-                        <div className='col-5'>
-                            <div className="mt-2">
-                                <label className="form-label">Ano Publicação:</label>
-                                <input type="number" min="1000" max="9999" className="form-control" id="ano_publicacao" placeholder="Insira Ano" name="ano_publicacao" value={bookField.ano_publicacao} onChange={e => changeBookFieldHandler(e)} />
-                            </div>
-                        </div>
-                        <div className='col-4'>
-                            <div className="mt-2">
-                                <label className="form-label">Valor R$:</label>
-                                <input type="text" className="form-control" id="valor" placeholder="Insira Valor" name="valor" value={bookField.valor} onChange={e => changeBookFieldHandler(e)} />
-                            </div>
-                        </div>
+
+                    <div className="col-md-6">
+                        <label className="form-label">Editora:</label>
+                        <input type="text" name="editora" className="form-control" value={bookField.editora} onChange={handleChange} />
                     </div>
-                    <div className='row'>
-                    </div>                    
-                </form>
-                <div className='container d-flex justify-content-center pt-4'>
-                    <div className="btn-group" role="group" aria-label="Basic example">
-                        <button className='btn btn-warning' onClick={clickToBackHandler}>Voltar</button>
-                        <button type='submit' className='btn btn-success float-left' onClick={e => onSubmitChange(e)}>Atualizar</button>
+
+                    <div className="col-md-6 mt-3">
+                        <label className="form-label">Autores:</label>
+                        <select name="autores" className="form-control form-select" multiple value={bookField.autores} onChange={handleMultiSelect}>
+                            {authors.map((autor) => (
+                                <option key={autor.codau} value={autor.codau}>{autor.nome}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="col-md-6 mt-3">
+                        <label className="form-label">Assuntos:</label>
+                        <select name="assuntos" className="form-control form-select" multiple value={bookField.assuntos} onChange={handleMultiSelect}>
+                            {subjects.map((assunto) => (
+                                <option key={assunto.codas} value={assunto.codas}>{assunto.descricao}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="col-md-4 mt-3">
+                        <label className="form-label">Edição:</label>
+                        <input type="number" name="edicao" className="form-control" value={bookField.edicao} onChange={handleChange} />
+                    </div>
+
+                    <div className="col-md-4 mt-3">
+                        <label className="form-label">Ano Publicação:</label>
+                        <input type="number" name="ano_publicacao" className="form-control" value={bookField.ano_publicacao} onChange={handleChange} />
+                    </div>
+
+                    <div className="col-md-4 mt-3">
+                        <label className="form-label">Valor R$:</label>
+                        <input type="text" name="valor" className="form-control" value={bookField.valor} onChange={handleChange} />
                     </div>
                 </div>
-            </div>
-            <ColoredLine color="black"/>
-            <div className='container d-flex justify-content-center'>
-                <div className="btn-group" role="group" aria-label="Basic example">
-                    <button className='btn btn-secondary' onClick={clickToBackHome}>Home</button>
+
+                <div className="d-flex justify-content-center pt-4">
+                    <button type="button" className="btn btn-secondary me-2" onClick={() => navigate("/livros")}>Voltar</button>
+                    <button type="submit" className="btn btn-success">Atualizar</button>
                 </div>
-            </div>
+            </form>
         </div>
-    )    
-}
+    );
+};
 
 export default BookEdit;

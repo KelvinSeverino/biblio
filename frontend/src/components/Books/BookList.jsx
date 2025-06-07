@@ -1,45 +1,28 @@
-import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
-import { destroyBook, getBooks } from "../../services/bookService";
+import useBookList from '../../hooks/book/useBookList';
+import useBookDelete from "../../hooks/book/useBookDelete";
 import { formatCurrencyBR } from '../../utils/currencyHelper';
 
-const BookList = () => { 
-    const [books, setBooks] = useState([]);
-    const [error, setErrorMessage] = useState(null);
+const BookList = () => {    
+    const { books, fetchBooks, errorMessage: listError } = useBookList();
+    const { deleteBook, errorMessage: deleteError } = useBookDelete();
 
-    async function fetchBooks() {
-        try {
-            const booksData = await getBooks();
-            if (!Array.isArray(booksData)) {
-                throw new Error("Erro ao carregar processar livros.");
-            }
-
-            setBooks(booksData);
-        } catch (e) {
-            setBooks([]);
-            setErrorMessage(e.error || "Falha ao obter os livros.");
-        }
-    }
-
-    useEffect(() => {
-        fetchBooks();
-    }, [])    
-
-    async function deleteBook(id) {
-        try {
-            await destroyBook(id);
-            fetchBooks();
-        } catch (e) {
-            setErrorMessage(e.error);
-        }
-    }
+    const handleDelete = async (id) => {
+        await deleteBook(id);
+        await fetchBooks();
+    };
 
     return(
         <div className="container-fluid">
             <h3>Lista Livros</h3>
-            {error && <div className="alert alert-danger">{error}</div>}
-            {!error && books.length === 0 && (<div className="alert alert-info">Nenhum Livro encontrado.</div>)}
-            {!error && books.length > 0 && (
+            {listError && <div className="alert alert-danger">{listError}</div>}
+            {deleteError && <div className="alert alert-danger">{deleteError}</div>}
+
+            {!listError && books.length === 0 && (
+                <div className="alert alert-info">Nenhum Livro encontrado.</div>
+            )}
+
+            {!listError && books.length > 0 && (  
                 <table className="table table-bordered">
                     <thead>
                         <tr>
@@ -62,7 +45,7 @@ const BookList = () => {
                                         <td>
                                             <NavLink to={`/livros/view/${book.codl}`} className="btn btn-secondary">Abrir</NavLink>
                                             <NavLink to={`/livros/edit/${book.codl}`} className="btn btn-warning mx-2">Editar</NavLink>
-                                            <button onClick={()=>deleteBook(book.codl)} className="btn btn-danger">Apagar</button>
+                                            <button onClick={() => handleDelete(book.codl)} className="btn btn-danger">Apagar</button>
                                         </td>
                                     </tr>
                                 )

@@ -1,33 +1,15 @@
-import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getById } from '../../services/subjectService';
 import Header from '../Header/Header';
+import useSubjectView from '../../hooks/subject/useSubjectView';
 
-const SubjectView = () => {
-    const {id} = useParams();
+const SubjectView = () => {    
+    const { id } = useParams();
     const navigate = useNavigate();
-    
-    const [subject, setSubject] = useState([]);
-    const [errorMessage, setErrorMessage] = useState(null);
-
-    useEffect(() => {
-        const fetchSubject = async () => {        
-            try {
-                const subjectData = await getById(id);
-                setSubject(subjectData);
-                setErrorMessage(null);
-            } catch (e) {
-                setSubject({});
-                setErrorMessage(e.error);
-            }
-        };
-
-        fetchSubject();
-    }, [id]);
+    const { subject, errorMessage } = useSubjectView(id);
 
     const clickToBackHandler = () => {
         navigate('/assuntos');
-    }
+    };
  
     return <div>
         <div className="container-fluid">

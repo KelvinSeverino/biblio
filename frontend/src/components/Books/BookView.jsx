@@ -1,30 +1,12 @@
-import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getById } from '../../services/bookService';
 import Header from '../Header/Header';
 import { formatCurrencyBR } from '../../utils/currencyHelper';
+import useBookView from '../../hooks/book/useBookView';
 
 const BookView = () => {
     const { id } = useParams();
     const navigate = useNavigate();
-
-    const [book, setBook] = useState({});
-    const [errorMessage, setErrorMessage] = useState(null);
-
-    useEffect(() => {
-        const fetchBook = async () => {        
-            try {
-                const bookData = await getById(id);
-                setBook(bookData);
-                setErrorMessage(null);
-            } catch (e) {
-                setBook({});
-                setErrorMessage(e.error);
-            }
-        };
-
-        fetchBook();
-    }, [id]);
+    const { book, errorMessage } = useBookView(id);
 
     const clickToBackHandler = () => {
         navigate('/livros');

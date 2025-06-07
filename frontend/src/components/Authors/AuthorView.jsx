@@ -1,29 +1,11 @@
-import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getById } from '../../services/authorService';
 import Header from '../Header/Header';
+import useAuthorView from '../../hooks/author/useAuthorView';
 
-const AuthorView = () => {
+const AuthorView = () => {    
     const { id } = useParams();
     const navigate = useNavigate();
-
-    const [author, setAuthor] = useState({});
-    const [errorMessage, setErrorMessage] = useState(null);
-
-    useEffect(() => {
-        const fetchAuthor = async () => {        
-            try {
-                const authorData = await getById(id);
-                setAuthor(authorData);
-                setErrorMessage(null);
-            } catch (e) {
-                setAuthor({});
-                setErrorMessage(e.error);
-            }
-        };
-
-        fetchAuthor();
-    }, [id]);
+    const { author, errorMessage } = useAuthorView(id);
 
     const clickToBackHandler = () => {
         navigate('/autores');
