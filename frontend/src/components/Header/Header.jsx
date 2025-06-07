@@ -1,18 +1,21 @@
-import React, { } from 'react';
+import { NavLink, useNavigate } from "react-router-dom";
 
-function Header({ title }) {
-
+function Header() {
     return (
-        <div className="container-fluid">
-            <nav className="py-2 bg-light border-bottom">
-                <div className="container d-flex flex-wrap">
-                    <div className="d-flex justify-content-center flex-grow-1">
-                        <span className="nav-text"><strong>{ title } | Biblio</strong></span>
-                    </div>
+        <header>
+            <div className="px-3 py-2 border-bottom bg-light">
+                <div className="container d-flex flex-wrap justify-content-center">
+                    <nav className="nav nav-pills">
+                        <NavLink to="/" className="nav-link text-dark">🏠 Home</NavLink>
+                        <NavLink to="/livros" className="nav-link text-dark">📚 Livros</NavLink>
+                        <NavLink to="/autores" className="nav-link text-dark">✍️ Autores</NavLink>
+                        <NavLink to="/assuntos" className="nav-link text-dark">📖 Assuntos</NavLink>
+                        <NavLink to="/relatorio" className="nav-link text-dark">📊 Relatório</NavLink>
+                    </nav>
                 </div>
-            </nav>
-        </div>
+            </div>
+        </header>
     );
 }
 
-export default Header
+export default Header;

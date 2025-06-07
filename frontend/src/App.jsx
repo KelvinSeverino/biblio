@@ -1,6 +1,7 @@
 import './App.css'
 import Home from './components/Home';
 import BookHome from './components/Books/BookHome';
+import BookCreate from './components/Books/BookCreate';
 import BookView from "./components/Books/BookView";
 import BookEdit from "./components/Books/BookEdit";
 import AuthorHome from './components/Authors/AuthorHome';
@@ -20,8 +21,9 @@ function App() {
           <Route path="/" element={<Home />} />
           
           <Route exact path="/livros" element={<BookHome />} />
-          <Route exact path="/livros/view/:id" element={<BookView />}/>
-          <Route exact path="/livros/edit/:id" element={<BookEdit />}/>
+          <Route exact path="/livros/criar" element={<BookCreate />}/>
+          <Route exact path="/livros/visualizar/:id" element={<BookView />}/>
+          <Route exact path="/livros/editar/:id" element={<BookEdit />}/>
           
           <Route exact path="/autores" element={<AuthorHome />} />
           <Route exact path="/autores/view/:id" element={<AuthorView />}/>

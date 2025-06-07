@@ -10,7 +10,7 @@ const useBookView = (id) => {
             try {
                 const bookData = await getById(id);
                 setBook(bookData);
-                setsetErrorMessage(null);
+                setErrorMessage(null);
             } catch (e) {
                 setBook({});
                 setErrorMessage(e.error);
