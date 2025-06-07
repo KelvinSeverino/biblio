@@ -10,7 +10,7 @@ const useAuthorView = (id) => {
             try {
                 const authorData = await getById(id);
                 setAuthor(authorData);
-                setsetErrorMessage(null);
+                setErrorMessage(null);
             } catch (e) {
                 setAuthor({});
                 setErrorMessage(e.error);

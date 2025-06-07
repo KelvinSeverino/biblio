@@ -13,9 +13,8 @@ const AuthorView = () => {
 
     return (
         <div>
-            <div className="container">
-                <Header title="Autor" />
-                
+            <Header />
+            <div className="container">                
                 {errorMessage && (
                     <div className="alert alert-danger">{errorMessage}</div>
                 )}

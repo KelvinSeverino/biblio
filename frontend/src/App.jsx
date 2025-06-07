@@ -5,6 +5,7 @@ import BookCreate from './components/Books/BookCreate';
 import BookView from "./components/Books/BookView";
 import BookEdit from "./components/Books/BookEdit";
 import AuthorHome from './components/Authors/AuthorHome';
+import AuthorCreate from './components/Authors/AuthorCreate';
 import AuthorView from "./components/Authors/AuthorView";
 import AuthorEdit from "./components/Authors/AuthorEdit";
 import SubjectHome from './components/Subjects/SubjectHome';
@@ -26,8 +27,9 @@ function App() {
           <Route exact path="/livros/editar/:id" element={<BookEdit />}/>
           
           <Route exact path="/autores" element={<AuthorHome />} />
-          <Route exact path="/autores/view/:id" element={<AuthorView />}/>
-          <Route exact path="/autores/edit/:id" element={<AuthorEdit />}/>
+          <Route exact path="/autores/criar" element={<AuthorCreate />} />
+          <Route exact path="/autores/visualizar/:id" element={<AuthorView />}/>
+          <Route exact path="/autores/editar/:id" element={<AuthorEdit />}/>
           
           <Route exact path="/assuntos" element={<SubjectHome />} />
           <Route exact path="/assuntos/view/:id" element={<SubjectView />}/>
