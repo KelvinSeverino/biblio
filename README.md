@@ -1,4 +1,4 @@
-# biblio_challenge
+# biblio
 
 ## ❓ Para que serve?
 Este repositorio se trata de um projeto de Backend desenvolvido em Laravel 12 na estrutura de API e Frontend React.js para Gerenciamento de Livros.
