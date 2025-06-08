@@ -2,8 +2,11 @@ import { useEffect, useState } from 'react';
 import { getById, updateBook } from '../../services/bookService';
 import { getAuthors } from '../../services/authorService';
 import { getSubjects } from '../../services/subjectService';
+import { useNavigate } from 'react-router-dom';
 
 const useBookEdit = (id) => {
+    const navigate = useNavigate();
+
     const [bookField, setBookField] = useState({
         titulo: "",
         editora: "",
@@ -14,9 +17,10 @@ const useBookEdit = (id) => {
         autores: [],
     });
 
+    const [successMessage, setSuccessMessage] = useState(null);
+    const [errorMessage, setErrorMessage] = useState(null);
     const [authors, setAuthors] = useState([]);
     const [subjects, setSubjects] = useState([]);
-    const [errorMessage, setErrorMessage] = useState(null);
 
     useEffect(() => {
         const fetchInitialData = async () => {
@@ -59,19 +63,24 @@ const useBookEdit = (id) => {
 
     const handleSubmit = async () => {
         try {
-            await updateBook(id, bookField);
-            return { success: true };
+            await updateBook(id, bookField);            
+            setErrorMessage(null);
+            setSuccessMessage("Livro atualizado com sucesso!");
+
+            setTimeout(() => {
+                navigate("/livros");
+            }, 1000); 
         } catch (e) {
             setErrorMessage(e.error);
-            return { success: false };
         }
     };
 
     return {
+        successMessage,
+        errorMessage,
         bookField,
         authors,
         subjects,
-        errorMessage,
         handleChange,
         handleMultiSelectChange,
         handleSubmit

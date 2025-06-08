@@ -4,7 +4,7 @@ import useSubjectDelete from "../../hooks/subject/useSubjectDelete";
 
 const SubjectList = () => {    
     const { subjects, fetchSubjects, errorMessage: listError } = useSubjectList();
-    const { deleteSubject, errorMessage: deleteError } = useSubjectDelete();
+    const { deleteSubject, errorMessage: deleteError, successMessage: deleteSuccess } = useSubjectDelete();
 
     const handleDelete = async (id) => {
         await deleteSubject(id);
@@ -26,6 +26,8 @@ const SubjectList = () => {
             </div>
 
             {listError && <div className="alert alert-danger">{listError}</div>}
+            
+            {deleteSuccess && <div className="alert alert-success">{deleteSuccess}</div>}
             {deleteError && <div className="alert alert-danger">{deleteError}</div>}
 
             {!listError && subjects.length === 0 && (

@@ -5,7 +5,7 @@ import { formatCurrencyBR } from "../../utils/currencyHelper";
 
 const BookList = () => {
     const { books, fetchBooks, errorMessage: listError } = useBookList();
-    const { deleteBook, errorMessage: deleteError } = useBookDelete();
+    const { deleteBook, errorMessage: deleteError, successMessage: deleteSuccess } = useBookDelete();
 
     const handleDelete = async (id) => {
         await deleteBook(id);
@@ -27,6 +27,8 @@ const BookList = () => {
             </div>
 
             {listError && <div className="alert alert-danger">{listError}</div>}
+            
+            {deleteSuccess && <div className="alert alert-success">{deleteSuccess}</div>}   
             {deleteError && <div className="alert alert-danger">{deleteError}</div>}
 
             {!listError && books.length === 0 && (

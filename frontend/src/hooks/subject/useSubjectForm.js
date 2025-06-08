@@ -26,7 +26,11 @@ const useSubjectForm = () => {
             await storeSubject(subjectField); 
             setSubjectField(initialSubjectField);
             setErrorMessage(null);
-            setSuccessMessage("Autor salvo com sucesso!");
+            setSuccessMessage("Assunto salvo com sucesso!");
+
+            setTimeout(() => {
+                navigate("/assuntos");
+            }, 1000); 
         } catch (e) {     
             setErrorMessage(e.error);
         }

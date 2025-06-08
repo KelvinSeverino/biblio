@@ -7,18 +7,16 @@ const AuthorEdit = () => {
     const { id } = useParams();    
 
     const {
-        authorField,
+        successMessage,
         errorMessage,
+        authorField,
         handleChange,
         handleSubmit
     } = useAuthorEdit(id);
 
     const onSubmitChange = async (e) => {
         e.preventDefault();
-        const result = await handleSubmit();
-        if (result.success) {
-            navigate("/autores");
-        }
+        await handleSubmit();
     };
 
     const clickToBackHandler = () => navigate("/autores");
@@ -30,6 +28,7 @@ const AuthorEdit = () => {
                 <div className="col-12 pt-4">
                     <form onSubmit={onSubmitChange}>
 
+                        {successMessage && <div className="alert alert-success">{successMessage}</div>}
                         {errorMessage && (<div className="alert alert-danger">{errorMessage}</div>)}
                         
                         <div className="row">
@@ -41,15 +40,9 @@ const AuthorEdit = () => {
                             </div>
                         </div>
                         
-                        <div className="container d-flex justify-content-center pt-4">
-                            <div className="btn-group" role="group" aria-label="Basic example">
-                                <button className="btn btn-warning" onClick={clickToBackHandler}>
-                                    Voltar
-                                </button>
-                                <button type="submit" className="btn btn-success">
-                                    Atualizar
-                                </button>
-                            </div>
+                        <div className="d-flex justify-content-center pt-4">
+                            <button type="button" className="btn btn-secondary me-2" onClick={clickToBackHandler}>Voltar</button>
+                            <button type="submit" className="btn btn-success">Atualizar</button>
                         </div>
                     </form>
                 </div>

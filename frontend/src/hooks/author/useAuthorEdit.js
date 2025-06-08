@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { getById, updateAuthor } from '../../services/authorService';
+import { useNavigate } from 'react-router-dom';
 
-const useAuthorEdit = (id) => {    
+const useAuthorEdit = (id) => {  
+    const navigate = useNavigate();
+      
+    const [successMessage, setSuccessMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [authorField, setAuthorField] = useState({
         nome: "",
@@ -29,17 +33,22 @@ const useAuthorEdit = (id) => {
 
     const handleSubmit = async () => {
         try {
-            await updateAuthor(id, authorField);
-            return { success: true };
+            await updateAuthor(id, authorField);            
+            setErrorMessage(null);
+            setSuccessMessage("Autor atualizado com sucesso!");
+
+            setTimeout(() => {
+                navigate("/autores");
+            }, 1000); 
         } catch (e) {
             setErrorMessage(e.error);
-            return { success: false };
         }
     };
 
     return {
-        authorField,
+        successMessage,
         errorMessage,
+        authorField,
         handleChange,
         handleSubmit
     };

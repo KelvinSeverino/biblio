@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { getById, updateSubject } from '../../services/subjectService';
+import { useNavigate } from 'react-router-dom';
 
 const useSubjectEdit = (id) => {    
+    const navigate = useNavigate();
+
+    const [successMessage, setSuccessMessage] = useState(null);
     const [errorMessage, setErrorMessage] = useState(null);
     const [subjectField, setSubjectField] = useState({
         descricao: "",
@@ -29,8 +33,13 @@ const useSubjectEdit = (id) => {
 
     const handleSubmit = async () => {
         try {
-            await updateSubject(id, subjectField);
-            return { success: true };
+            await updateSubject(id, subjectField);              
+            setErrorMessage(null);
+            setSuccessMessage("Assunto atualizado com sucesso!");
+
+            setTimeout(() => {
+                navigate("/assuntos");
+            }, 1000); 
         } catch (e) {
             setErrorMessage(e.error);
             return { success: false };
@@ -38,8 +47,9 @@ const useSubjectEdit = (id) => {
     };
 
     return {
-        subjectField,
+        successMessage,
         errorMessage,
+        subjectField,
         handleChange,
         handleSubmit
     };

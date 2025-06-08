@@ -27,6 +27,10 @@ const useAuthorForm = () => {
             setAuthorField(initialAuthorField);
             setErrorMessage(null);
             setSuccessMessage("Autor salvo com sucesso!");
+
+            setTimeout(() => {
+                navigate("/autores");
+            }, 1000); 
         } catch (e) {     
             setErrorMessage(e.error);
         }

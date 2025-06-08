@@ -51,7 +51,12 @@ const useBookForm = () => {
         try {
             await storeBook(bookField); 
             setBookField(initialBookField);
+            setErrorMessage(null);
             setSuccessMessage("Livro salvo com sucesso!");
+
+            setTimeout(() => {
+                navigate("/livros");
+            }, 1000); 
         } catch (e) {     
             setErrorMessage(e.error);
         }

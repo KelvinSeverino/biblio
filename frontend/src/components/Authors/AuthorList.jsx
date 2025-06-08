@@ -4,7 +4,7 @@ import useAuthorDelete from "../../hooks/author/useAuthorDelete";
 
 const AuthorList = () => {    
     const { authors, fetchAuthors, errorMessage: listError } = useAuthorList();
-    const { deleteAuthor, errorMessage: deleteError } = useAuthorDelete();
+    const { deleteAuthor, errorMessage: deleteError, successMessage: deleteSuccess } = useAuthorDelete();
 
     const handleDelete = async (id) => {
         await deleteAuthor(id);
@@ -26,6 +26,8 @@ const AuthorList = () => {
             </div>
 
             {listError && <div className="alert alert-danger">{listError}</div>}
+            
+            {deleteSuccess && <div className="alert alert-success">{deleteSuccess}</div>}
             {deleteError && <div className="alert alert-danger">{deleteError}</div>}
 
             {!listError && authors.length === 0 && (

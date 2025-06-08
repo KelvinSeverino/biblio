@@ -7,23 +7,19 @@ const SubjectEdit = () => {
     const { id } = useParams();    
 
     const {
-        subjectField,
+        successMessage,
         errorMessage,
+        subjectField,
         handleChange,
         handleSubmit
     } = useSubjectEdit(id);
 
     const onSubmitChange = async (e) => {
         e.preventDefault();
-        const result = await handleSubmit();
-        if (result.success) {
-            navigate("/assuntos");
-        }
+        await handleSubmit();
     };
     
-    const clickToBackHandler = () => {
-        navigate('/assuntos');
-    }
+    const clickToBackHandler = () => navigate('/assuntos');
 
     return(
         <div>
@@ -32,6 +28,7 @@ const SubjectEdit = () => {
                 <div className='col-12 pt-4'>
                     <form onSubmit={onSubmitChange}>
 
+                        {successMessage && <div className="alert alert-success">{successMessage}</div>}
                         {errorMessage && (<div className="alert alert-danger">{errorMessage}</div>)}
                         
                         <div className='row'>
@@ -43,16 +40,10 @@ const SubjectEdit = () => {
                             </div>
                         </div>
                         
-                        <div className="container d-flex justify-content-center pt-4">
-                            <div className="btn-group" role="group" aria-label="Basic example">
-                                <button className="btn btn-warning" onClick={clickToBackHandler}>
-                                    Voltar
-                                </button>
-                                <button type="submit" className="btn btn-success">
-                                    Atualizar
-                                </button>
-                            </div>
-                        </div>              
+                        <div className="d-flex justify-content-center pt-4">
+                            <button type="button" className="btn btn-secondary me-2" onClick={clickToBackHandler}>Voltar</button>
+                            <button type="submit" className="btn btn-success">Atualizar</button>
+                        </div>             
                     </form>
                 </div>
             </div>

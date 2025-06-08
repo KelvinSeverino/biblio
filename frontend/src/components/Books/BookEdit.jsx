@@ -7,10 +7,11 @@ const BookEdit = () => {
     const navigate = useNavigate();
 
     const {
+        successMessage,
+        errorMessage,
         bookField,
         authors,
         subjects,
-        errorMessage,
         handleChange,
         handleMultiSelectChange,
         handleSubmit
@@ -18,10 +19,7 @@ const BookEdit = () => {
 
     const onSubmitChange = async (e) => {
         e.preventDefault();
-        const result = await handleSubmit();
-        if (result.success) {
-            navigate("/livros");
-        }
+        await handleSubmit();
     };
 
     const handleMultiSelect = (e) => {
@@ -34,6 +32,7 @@ const BookEdit = () => {
             <Header />
             <div className="container">
 
+                {successMessage && <div className="alert alert-success">{successMessage}</div>} 
                 {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
 
                 <form onSubmit={onSubmitChange} className="pt-4">
