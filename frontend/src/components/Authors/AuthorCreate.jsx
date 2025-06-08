@@ -11,7 +11,7 @@ const AuthorCreate = () => {
     } = useAuthorForm(); 
 
     return (
-        <div className="container-fluid">
+        <div className="container">
             <Header />
             <div className='row pt-4'>
                 <div className='col-md-12'>

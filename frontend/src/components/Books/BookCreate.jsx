@@ -15,7 +15,7 @@ const BookCreate = () => {
     return (
         <div>
             <Header />
-            <div className="container-fluid">
+            <div className="container">
                 <div className='row pt-4'>
                     <div className='col-md-12'>
                         <h3>Informe Dados do Livro</h3>
