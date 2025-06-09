@@ -35,4 +35,11 @@ class SubjectRepository
         $subject = Assunto::findOrFail($id);
         $subject->delete();
     }
+
+    public function hasLinkedBooks(string $id): bool
+    {
+        $subject = $this->findById($id);
+
+        return $subject->livros()->exists();
+    }
 }

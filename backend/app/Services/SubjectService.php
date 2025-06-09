@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\Domain\Subject\SubjectLinkedException;
 use App\Repositories\SubjectRepository;
 
 class SubjectService
@@ -31,7 +32,11 @@ class SubjectService
     }
 
     public function deleteSubject(string $id): void
-    {
+    {        
+        if ($this->subjectRepository->hasLinkedBooks($id)) {
+            throw new SubjectLinkedException();
+        }
+
         $this->subjectRepository->delete($id);
     }
 }

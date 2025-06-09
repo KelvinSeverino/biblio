@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Throwable;
+use App\Exceptions\Domain\Author\AuthorLinkedException;
+use App\Exceptions\Domain\Subject\SubjectLinkedException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -18,6 +20,16 @@ class Handler extends ExceptionHandler
 {
     public function render($request, Throwable $exception)
     {
+        //Excecoes do Dominio (Regras de Negocio)
+        if ($response = $this->handleDomainExceptions($exception)) {
+            return $response;
+        }
+
+        //Excecoes do Banco de Dados
+        if ($exception instanceof QueryException) {
+            return $this->handleQueryException($exception);
+        }
+
         if ($exception instanceof RouteNotFoundException || $exception instanceof NotFoundHttpException) {
             return response()->json([
                 'message' => 'Rota ou endpoint não encontrado.',
@@ -69,63 +81,84 @@ class Handler extends ExceptionHandler
                 'message' => 'Muitas requisições. Por favor, tente novamente mais tarde.',
             ], 429);
         }
+        
+        // Erros genéricos
+        // if(env('APP_ENV') == 'local'){
+        //     return response()->json([
+        //         'message' => 'Erro interno do servidor.',
+        //         'error' => config('app.debug') ? $exception->getMessage() : 'Consulte o administrador do sistema.',
+        //     ], 500);
+        // }
 
-        if ($exception instanceof QueryException) {
-            $errorInfo = $exception->errorInfo;
-            $sqlState = $errorInfo[0] ?? null; // SQLSTATE
-            $errorCode = $errorInfo[1] ?? null; // Código interno do banco
+        return parent::render($request, $exception);
+    }
 
-            switch (true) {
-                case ($sqlState === '23000' || $errorCode == 23000):
-                    return response()->json([
-                        'message' => 'Erro ao inserir no banco de dados: chave duplicada.',
-                    ], 400);
+    private function handleDomainExceptions(Throwable $exception)
+    {
+        if ($exception instanceof AuthorLinkedException) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+            ], 400);
+        }
 
-                case ($sqlState === '1452' || $errorCode == 1452):
-                    return response()->json([
-                        'message' => 'Erro: tentativa de criar um registro com uma chave estrangeira inexistente.',
-                    ], 400);
+        if ($exception instanceof SubjectLinkedException) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+            ], 400);
+        }
 
-                case ($sqlState === '42S22' || $errorCode == 1054):
-                    return response()->json([
-                        'message' => 'Erro no banco de dados: coluna desconhecida na consulta.',
-                    ], 500);
+        return null;
+    }
 
-                case ($sqlState === '42S02' || $errorCode == 1146):
-                    return response()->json([
-                        'message' => 'Erro crítico: tabela de banco de dados não encontrada.',
-                    ], 500);
+    private function handleQueryException(QueryException $exception)
+    {
+        $errorInfo = $exception->errorInfo;
+        $sqlState = $errorInfo[0] ?? null; // SQLSTATE
+        $errorCode = $errorInfo[1] ?? null; // Código interno do banco
 
-                case ($sqlState === '22001' || $errorCode == 1406):
-                    return response()->json([
-                        'message' => 'Erro: um dos campos ultrapassa o tamanho permitido pelo banco.',
-                    ], 400);
+        switch (true) {
+            case ($sqlState === '23000' || $errorCode == 23000):
+                return response()->json([
+                    'message' => 'Erro ao inserir no banco de dados: chave duplicada.',
+                ], 400);
 
-                case ($sqlState === '40001' || $errorCode == 1213):
-                    return response()->json([
-                        'message' => 'Erro de concorrência: um deadlock foi detectado.',
-                    ], 500);
+            case ($sqlState === '1452' || $errorCode == 1452):
+                return response()->json([
+                    'message' => 'Erro: tentativa de criar um registro com uma chave estrangeira inexistente.',
+                ], 400);
 
-                case ($sqlState === 'HY000' || $errorCode == 1205):
-                    return response()->json([
-                        'message' => 'Erro: tempo limite excedido ao acessar o banco de dados.',
-                    ], 500);
+            case ($sqlState === '42S22' || $errorCode == 1054):
+                return response()->json([
+                    'message' => 'Erro no banco de dados: coluna desconhecida na consulta.',
+                ], 500);
 
-                default:
-                    return response()->json([
-                        'message' => 'Erro inesperado no banco de dados.',
-                        'error' => config('app.debug') ? $exception->getMessage() : 'Consulte o administrador.',
-                    ], 500);
-            }
+            case ($sqlState === '42S02' || $errorCode == 1146):
+                return response()->json([
+                    'message' => 'Erro crítico: tabela de banco de dados não encontrada.',
+                ], 500);
+
+            case ($sqlState === '22001' || $errorCode == 1406):
+                return response()->json([
+                    'message' => 'Erro: um dos campos ultrapassa o tamanho permitido pelo banco.',
+                ], 400);
+
+            case ($sqlState === '40001' || $errorCode == 1213):
+                return response()->json([
+                    'message' => 'Erro de concorrência: um deadlock foi detectado.',
+                ], 500);
+
+            case ($sqlState === 'HY000' || $errorCode == 1205):
+                return response()->json([
+                    'message' => 'Erro: tempo limite excedido ao acessar o banco de dados.',
+                ], 500);
+
+            default:
+                return response()->json([
+                    'message' => 'Erro inesperado no banco de dados.',
+                    'error' => config('app.debug') ? $exception->getMessage() : 'Consulte o administrador.',
+                ], 500);
         }
         
-        return parent::render($request, $exception);
-
-        // Erros genéricos
-        // return response()->json([
-        //     'message' => 'Erro interno do servidor.',
-        //     'error' => config('app.debug') ? $exception->getMessage() : 'Consulte o administrador do sistema.',
-        // ], 500);
     }
 }
 

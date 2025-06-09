@@ -35,4 +35,11 @@ class AuthorRepository
         $author = Autor::findOrFail($id);
         $author->delete();
     }
+
+    public function hasLinkedBooks(string $id): bool
+    {
+        $author = $this->findById($id);
+
+        return $author->livros()->exists();
+    }
 }

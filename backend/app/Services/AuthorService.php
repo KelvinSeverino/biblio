@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\Domain\Author\AuthorLinkedException;
 use App\Repositories\AuthorRepository;
 
 class AuthorService
@@ -32,6 +33,10 @@ class AuthorService
 
     public function deleteAuthor(string $id): void
     {
+        if ($this->authorRepository->hasLinkedBooks($id)) {
+            throw new AuthorLinkedException();
+        }
+        
         $this->authorRepository->delete($id);
     }
 }
