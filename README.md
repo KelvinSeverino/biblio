@@ -42,7 +42,7 @@ git clone https://github.com/KelvinSeverino/biblio_challenge.git
 
 Acessar diretório do projeto
 ```sh
-cd biblio_challenge
+cd biblio
 ```
 
 Acessar diretório do projeto
