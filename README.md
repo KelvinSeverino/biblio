@@ -17,7 +17,7 @@ O backend foi desenvolvido com Laravel e segue uma estrutura modular para garant
 - **Services** para lógica de negócios
 - **Utils** (gerador de **PDF** e gerador de **CSV**)
 - **Migrations, Seeders, Factories** para gerenciamento do banco de dados
-- **Testes Unitários** para garantir qualidade do código
+- **Testes Unitários, Integrações** para garantir qualidade do código
 - **CRUD de APIs** para **Livro, Autor e Assunto** baseado no modelo de dados
 
 ### 🎨 Frontend (React)
@@ -37,7 +37,7 @@ Antes de começar, verifique se você atendeu aos seguintes requisitos:
 
 Baixar repositório
 ```sh
-git clone https://github.com/KelvinSeverino/biblio_challenge.git
+git clone https://github.com/KelvinSeverino/biblio.git
 ```
 
 Acessar diretório do projeto
@@ -57,7 +57,7 @@ cp .env.example .env
 
 Atualize as variáveis de ambiente do arquivo .env
 ```sh
-APP_NAME=Biblio_Challenge
+APP_NAME=Biblio
 APP_ENV=local
 APP_KEY=
 APP_DEBUG=true
