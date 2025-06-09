@@ -16,23 +16,23 @@
     <table>
         <thead>
             <tr>
-                <th>Autor</th>
+                <th>Autores</th>
                 <th>Título</th>
                 <th>Editora</th>
                 <th>Edição</th>
                 <th>Ano</th>
-                <th>Assunto</th>
+                <th>Assuntos</th>
             </tr>
         </thead>
         <tbody>
             @foreach($data as $livro)
                 <tr>
-                    <td>{{ $livro->autor_nome }}</td>
+                    <td>{{ $livro->autores }}</td>
                     <td>{{ $livro->titulo }}</td>
                     <td>{{ $livro->editora }}</td>
                     <td>{{ $livro->edicao }}</td>
                     <td>{{ $livro->ano_publicacao }}</td>
-                    <td>{{ $livro->assunto }}</td>
+                    <td>{{ $livro->assuntos }}</td>
                 </tr>
             @endforeach
         </tbody>

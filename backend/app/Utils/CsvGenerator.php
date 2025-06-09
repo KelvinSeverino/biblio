@@ -7,8 +7,8 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class CsvGenerator
 {
     private const CSV_HEADERS = [
-        'ID Sequencial', 'Autor ID', 'Autor Nome', 'Livro ID', 'Título',
-        'Editora', 'Edição', 'Ano de Publicação', 'Assunto'
+        'ID Sequencial', 'Autores', 'Livro ID', 'Título',
+        'Editora', 'Edição', 'Ano de Publicação', 'Assuntos'
     ];
 
     public function createCSV(iterable $data, string $filename): StreamedResponse
@@ -19,9 +19,9 @@ class CsvGenerator
 
             foreach ($data as $item) {
                 fputcsv($file, [
-                    $item['id_seq'], $item['autor_id'], $item['autor_nome'],
+                    $item['id_seq'], $item['autores'],
                     $item['livro_id'], $item['titulo'], $item['editora'],
-                    $item['edicao'], $item['ano_publicacao'], $item['assunto']
+                    $item['edicao'], $item['ano_publicacao'], $item['assuntos']
                 ]);
             }
 

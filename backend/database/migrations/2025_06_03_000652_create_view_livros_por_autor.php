@@ -15,21 +15,21 @@ return new class extends Migration
         DB::statement("
             CREATE OR REPLACE VIEW view_livros_por_autor AS
             SELECT
-                ROW_NUMBER() OVER (ORDER BY a.nome, l.titulo) AS id_seq,
-                a.codau AS autor_id,
-                a.nome AS autor_nome,
+                ROW_NUMBER() OVER (ORDER BY l.titulo) AS id_seq,
                 l.codl AS livro_id,
                 l.titulo,
                 l.editora,
                 l.edicao,
                 l.ano_publicacao,
-                asu.descricao AS assunto
-            FROM autores a
-            JOIN livro_autor la ON la.autor_codau = a.codau
-            JOIN livros l ON l.codl = la.livro_codl
+                GROUP_CONCAT(DISTINCT a.nome ORDER BY a.nome SEPARATOR ', ') AS autores,
+                GROUP_CONCAT(DISTINCT asu.descricao ORDER BY asu.descricao SEPARATOR ', ') AS assuntos
+            FROM livros l
+            LEFT JOIN livro_autor la ON la.livro_codl = l.codl
+            LEFT JOIN autores a ON a.codau = la.autor_codau
             LEFT JOIN livro_assunto lasu ON lasu.livro_codl = l.codl
             LEFT JOIN assuntos asu ON asu.codas = lasu.assunto_codas
-            ORDER BY a.nome, l.titulo;
+            GROUP BY l.codl, l.titulo, l.editora, l.edicao, l.ano_publicacao
+            ORDER BY l.titulo;
         ");
     }
 

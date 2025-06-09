@@ -23,24 +23,24 @@ const ReportPage = () => {
                     <table className="table table-hover table-bordered">
                         <thead className="table-dark sticky-top">
                             <tr className="text-center">
-                                <th>Autor</th>
+                                <th>Autores</th>
                                 <th>Título</th>
                                 <th>Editora</th>
                                 <th>Edição</th>
                                 <th>Ano</th>
-                                <th>Assunto</th>
+                                <th>Assuntos</th>
                             </tr>
                         </thead>
                         <tbody>
                             {data.length > 0 ? (
                                 data.map((item) => (
                                     <tr key={item.id_seq} className="text-center">
-                                        <td>{item.autor_nome}</td>
+                                        <td>{item.autores}</td>
                                         <td>{item.titulo}</td>
                                         <td>{item.editora}</td>
                                         <td>{item.edicao}</td>
                                         <td>{item.ano_publicacao}</td>
-                                        <td>{item.assunto}</td>
+                                        <td>{item.assuntos}</td>
                                     </tr>
                                 ))
                             ) : (
