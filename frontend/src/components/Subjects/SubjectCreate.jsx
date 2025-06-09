@@ -6,7 +6,7 @@ const SubjectCreate = () => {
         successMessage,
         errorMessage,
         subjectField,
-        changeSubjectFieldHandler,
+        handleChange,
         handleSubmit,
     } = useSubjectForm(); 
 
@@ -24,7 +24,7 @@ const SubjectCreate = () => {
                                 <div className='col-12'>
                                     <div className="mt-2">
                                         <label className="form-label">Descrição:</label>
-                                        <input type="text" className="form-control" id="descricao" placeholder="Insira descricao" name="descricao" value={subjectField.descricao} onChange={changeSubjectFieldHandler} />
+                                        <input type="text" className="form-control" id="descricao" placeholder="Insira descricao" name="descricao" value={subjectField.descricao} onChange={handleChange} />
                                     </div>
                                 </div>
                             </div>    

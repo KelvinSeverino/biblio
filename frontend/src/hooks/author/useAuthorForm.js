@@ -13,7 +13,7 @@ const useAuthorForm = () => {
     const [errorMessage, setErrorMessage] = useState();
     const [authorField, setAuthorField] = useState(initialAuthorField);
 
-    const changeAuthorFieldHandler = (e) => {        
+    const handleChange = (e) => {        
         setAuthorField({
             ...authorField,
             [e.target.name]: e.target.value
@@ -44,7 +44,7 @@ const useAuthorForm = () => {
         successMessage,
         errorMessage,
         authorField,
-        changeAuthorFieldHandler,
+        handleChange,
         handleSubmit,        
         clickToBackHome,
     };

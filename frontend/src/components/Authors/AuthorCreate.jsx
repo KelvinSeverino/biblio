@@ -6,7 +6,7 @@ const AuthorCreate = () => {
         successMessage,
         errorMessage,
         authorField,
-        changeAuthorFieldHandler,
+        handleChange,
         handleSubmit,
     } = useAuthorForm(); 
 
@@ -23,7 +23,7 @@ const AuthorCreate = () => {
                             <div className='col-12'>
                                 <div className="mt-2">
                                     <label className="form-label">Nome:</label>
-                                    <input type="text" className="form-control" id="nome" placeholder="Insira nome" name="nome" value={authorField.nome} onChange={changeAuthorFieldHandler} />
+                                    <input type="text" className="form-control" id="nome" placeholder="Insira nome" name="nome" value={authorField.nome} onChange={handleChange} />
                                 </div>
                             </div>
                         </div>    

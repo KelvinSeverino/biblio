@@ -13,7 +13,7 @@ const useSubjectForm = () => {
     const [errorMessage, setErrorMessage] = useState();
     const [subjectField, setSubjectField] = useState(initialSubjectField);
 
-    const changeSubjectFieldHandler = (e) => {        
+    const handleChange = (e) => {        
         setSubjectField({
             ...subjectField,
             [e.target.name]: e.target.value
@@ -44,7 +44,7 @@ const useSubjectForm = () => {
         successMessage,
         errorMessage,
         subjectField,
-        changeSubjectFieldHandler,
+        handleChange,
         handleSubmit,        
         clickToBackHome,
     };

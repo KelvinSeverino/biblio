@@ -39,7 +39,7 @@ const useBookForm = () => {
         loadAuthorData();
     }, []);
 
-    const changeBookFieldHandler = (e) => {        
+    const handleChange = (e) => {        
         setBookField({
             ...bookField,
             [e.target.name]: e.target.value
@@ -79,7 +79,7 @@ const useBookForm = () => {
         bookField,
         authors,
         subjects,
-        changeBookFieldHandler,
+        handleChange,
         handleSubmit,        
         clickToBackHome,
     };

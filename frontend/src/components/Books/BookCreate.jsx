@@ -9,7 +9,7 @@ const BookCreate = () => {
         bookField,
         authors,
         subjects,
-        changeBookFieldHandler,
+        handleChange,
         handleSubmit,
     } = useBookForm();
 
@@ -27,20 +27,20 @@ const BookCreate = () => {
                                 <div className='col-6'>
                                     <div className="mt-2">
                                         <label className="form-label">Título:</label>
-                                        <input type="text" className="form-control" id="titulo" placeholder="Insira titulo" name="titulo" value={bookField.titulo} onChange={changeBookFieldHandler} />
+                                        <input type="text" className="form-control" id="titulo" placeholder="Insira titulo" name="titulo" value={bookField.titulo} onChange={handleChange} />
                                     </div>
                                 </div>
                                 <div className='col-6'>
                                     <div className="mt-2">
                                         <label className="form-label">Editora:</label>
-                                        <input type="text" className="form-control" id="editora" placeholder="Insira editora" name="editora" value={bookField.editora} onChange={changeBookFieldHandler} />
+                                        <input type="text" className="form-control" id="editora" placeholder="Insira editora" name="editora" value={bookField.editora} onChange={handleChange} />
                                     </div>
                                 </div>
                                 <div className='col-6 py-2'>
                                     <label className="form-label">Autores:</label>
                                     <select className="form-control form-select" id="autores" name="autores" multiple onChange={e => {
                                         const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
-                                        changeBookFieldHandler({ target: { name: "autores", value: selectedValues } });
+                                        handleChange({ target: { name: "autores", value: selectedValues } });
                                         }}>
                                         {authors.map((opcao) => (<option key={opcao.codau} value={opcao.codau}>{opcao.nome}</option>))}
                                     </select>
@@ -49,7 +49,7 @@ const BookCreate = () => {
                                     <label className="form-label">Assuntos:</label>
                                     <select className="form-control form-select" id="assuntos" name="assuntos" multiple onChange={e => {
                                         const selectedValues = Array.from(e.target.selectedOptions, option => option.value);
-                                        changeBookFieldHandler({ target: { name: "assuntos", value: selectedValues } });
+                                        handleChange({ target: { name: "assuntos", value: selectedValues } });
                                         }}>
                                         {subjects.map((opcao) => (<option key={opcao.codas} value={opcao.codas}>{opcao.descricao}</option>))}
                                     </select>
@@ -59,13 +59,13 @@ const BookCreate = () => {
                                 <div className='col-3'>
                                     <div className="mt-2">
                                         <label className="form-label">Edição:</label>
-                                        <input type="number" step="any" className="form-control" id="edicao" placeholder="Insira edicao" name="edicao" value={bookField.edicao} onChange={changeBookFieldHandler} />
+                                        <input type="number" step="any" className="form-control" id="edicao" placeholder="Insira edicao" name="edicao" value={bookField.edicao} onChange={handleChange} />
                                     </div>
                                 </div>
                                 <div className='col-5'>
                                     <div className="mt-2">
                                         <label className="form-label">Ano Publicação:</label>
-                                        <input type="number" min="1000" max="9999" className="form-control" id="ano_publicacao" placeholder="Insira Ano" name="ano_publicacao" value={bookField.ano_publicacao} onChange={changeBookFieldHandler} />
+                                        <input type="number" min="1000" max="9999" className="form-control" id="ano_publicacao" placeholder="Insira Ano" name="ano_publicacao" value={bookField.ano_publicacao} onChange={handleChange} />
                                     </div>
                                 </div>
                                 <div className='col-4'>
@@ -79,7 +79,7 @@ const BookCreate = () => {
                                             intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
                                             // groupSeparator="."  // Define "." como separador de milhar
                                             // decimalSeparator="," // Define "," como separador decimal
-                                            onValueChange={(value) => changeBookFieldHandler({ target: { name: "valor", value } })}
+                                            onValueChange={(value) => handleChange({ target: { name: "valor", value } })}
                                         />                                    
                                     </div>
                                 </div>
