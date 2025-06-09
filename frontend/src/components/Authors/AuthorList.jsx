@@ -7,8 +7,11 @@ const AuthorList = () => {
     const { deleteAuthor, errorMessage: deleteError, successMessage: deleteSuccess } = useAuthorDelete();
 
     const handleDelete = async (id) => {
-        await deleteAuthor(id);
-        await fetchAuthors();
+        const confirmDelete = window.confirm("Tem certeza que deseja excluir este autor?");
+        if (confirmDelete) {
+            await deleteAuthor(id);
+            await fetchAuthors();
+        }
     };
 
     return (

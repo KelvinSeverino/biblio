@@ -7,9 +7,12 @@ const BookList = () => {
     const { books, fetchBooks, errorMessage: listError } = useBookList();
     const { deleteBook, errorMessage: deleteError, successMessage: deleteSuccess } = useBookDelete();
 
-    const handleDelete = async (id) => {
-        await deleteBook(id);
-        await fetchBooks();
+    const handleDelete = async (id) => {        
+        const confirmDelete = window.confirm("Tem certeza que deseja excluir este Livro?");
+        if (confirmDelete) {
+            await deleteBook(id);
+            await fetchBooks();
+        }
     };
 
     return (

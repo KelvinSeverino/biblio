@@ -7,8 +7,11 @@ const SubjectList = () => {
     const { deleteSubject, errorMessage: deleteError, successMessage: deleteSuccess } = useSubjectDelete();
 
     const handleDelete = async (id) => {
-        await deleteSubject(id);
-        await fetchSubjects();
+        const confirmDelete = window.confirm("Tem certeza que deseja excluir este Assunto?");
+        if (confirmDelete) {
+            await deleteSubject(id);
+            await fetchSubjects();
+        }
     };
 
     return (
