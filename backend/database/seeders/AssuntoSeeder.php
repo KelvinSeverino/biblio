@@ -20,7 +20,7 @@ class AssuntoSeeder extends Seeder
             ['descricao' => 'Suspense'],
             ['descricao' => 'Romance'],
             ['descricao' => 'Terror'],
-            ['descricao' => 'Literatura Brasileira'],
+            ['descricao' => 'Lit. Brasileira'],
             ['descricao' => 'Autoajuda'],
             ['descricao' => 'Biografia'],
             ['descricao' => 'Policial'],

@@ -27,7 +27,7 @@ class SubjectRequest extends FormRequest
                 'descricao' => [
                     'required',
                     'string',
-                    'max:40',
+                    'max:20',
                     Rule::unique('assuntos', 'descricao'),
                 ],
             ];
@@ -36,7 +36,7 @@ class SubjectRequest extends FormRequest
                 'descricao' => [
                     'required',
                     'string',
-                    'max:40',
+                    'max:20',
                     Rule::unique('assuntos', 'descricao')->ignore($this->route('assunto'),'codas'), 
                 ],
             ];
