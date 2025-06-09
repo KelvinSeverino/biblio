@@ -62,8 +62,14 @@ const useBookEdit = (id) => {
     };
 
     const handleSubmit = async () => {
+        const formattedValue = bookField.valor.replace(/\./g, '').replace(',', '.');
+        const adjustedData = {
+            ...bookField,
+            valor: formattedValue // Agora no formato correto para a API
+        };
+
         try {
-            await updateBook(id, bookField);            
+            await updateBook(id, adjustedData);            
             setErrorMessage(null);
             setSuccessMessage("Livro atualizado com sucesso!");
 

@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../Header/Header';
 import useBookEdit from '../../hooks/book/useBookEdit';
+import CurrencyInput from 'react-currency-input-field';
 
 const BookEdit = () => {
     const { id } = useParams();
@@ -77,7 +78,17 @@ const BookEdit = () => {
 
                         <div className="col-md-4 mt-3">
                             <label className="form-label">Valor R$:</label>
-                            <input type="text" name="valor" className="form-control" value={bookField.valor} onChange={handleChange} />
+                            {/* <input type="text" name="valor" className="form-control" value={bookField.valor} onChange={handleChange} /> */}
+                            <CurrencyInput
+                                id="valor" name="valor" className="form-control" 
+                                placeholder="Insira valor"
+                                value={bookField.valor} 
+                                decimalsLimit={2}
+                                intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
+                                // groupSeparator="."  // Define "." como separador de milhar
+                                // decimalSeparator="," // Define "," como separador decimal
+                                onValueChange={(value) => handleChange({ target: { name: "valor", value } })}
+                            /> 
                         </div>
                     </div>
 

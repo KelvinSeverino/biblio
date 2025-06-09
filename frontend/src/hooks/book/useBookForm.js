@@ -48,8 +48,15 @@ const useBookForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const formattedValue = bookField.valor.replace(/\./g, '').replace(',', '.');
+        const adjustedData = {
+            ...bookField,
+            valor: formattedValue // Agora no formato correto para a API
+        };
+
         try {
-            await storeBook(bookField); 
+            await storeBook(adjustedData); 
             setBookField(initialBookField);
             setErrorMessage(null);
             setSuccessMessage("Livro salvo com sucesso!");

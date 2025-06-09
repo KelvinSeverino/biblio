@@ -1,5 +1,6 @@
 import Header from '../Header/Header';
 import useBookForm from '../../hooks/book/useBookForm';
+import CurrencyInput from 'react-currency-input-field';
 
 const BookCreate = () => {
     const {
@@ -70,7 +71,16 @@ const BookCreate = () => {
                                 <div className='col-4'>
                                     <div className="mt-2">
                                         <label className="form-label">Valor:</label>
-                                        <input type="text" className="form-control" id="valor" placeholder="Insira valor" name="valor" value={bookField.valor} onChange={changeBookFieldHandler} />
+                                        <CurrencyInput
+                                            id="valor" name="valor" className="form-control" 
+                                            placeholder="Insira valor"
+                                            value={bookField.valor} 
+                                            decimalsLimit={2}
+                                            intlConfig={{ locale: 'pt-BR', currency: 'BRL' }}
+                                            // groupSeparator="."  // Define "." como separador de milhar
+                                            // decimalSeparator="," // Define "," como separador decimal
+                                            onValueChange={(value) => changeBookFieldHandler({ target: { name: "valor", value } })}
+                                        />                                    
                                     </div>
                                 </div>
                             </div>
