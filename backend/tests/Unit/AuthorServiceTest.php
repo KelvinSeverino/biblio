@@ -138,4 +138,17 @@ class AuthorServiceTest extends TestCase
 
         $this->authorService->deleteAuthor(999);
     }
+
+    /** @test */
+    public function nao_deve_deletar_autor_vinculado_e_deve_lancar_excecao()
+    {
+        $this->authorRepository
+            ->method('hasLinkedBooks')
+            ->with(1)
+            ->willReturn(true);
+
+        $this->expectException(\App\Exceptions\Domain\Author\AuthorLinkedException::class);
+
+        $this->authorService->deleteAuthor(1);
+    }
 }

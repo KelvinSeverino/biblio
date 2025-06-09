@@ -138,4 +138,17 @@ class SubjectServiceTest extends TestCase
 
         $this->subjectService->deleteSubject(999);
     }
+
+    /** @test */
+    public function nao_deve_deletar_assunto_vinculado_e_deve_lancar_excecao()
+    {
+        $this->subjectRepository
+            ->method('hasLinkedBooks')
+            ->with(1)
+            ->willReturn(true);
+
+        $this->expectException(\App\Exceptions\Domain\Subject\SubjectLinkedException::class);
+
+        $this->subjectService->deleteSubject(1);
+    }
 }

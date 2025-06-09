@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Autor;
+use App\Models\Livro;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AuthorControllerTest extends TestCase
@@ -116,5 +117,24 @@ class AuthorControllerTest extends TestCase
         $response = $this->deleteJson('/api/autores/999');
 
         $response->assertStatus(404);
+    }
+
+    /** @test */
+    public function nao_deve_excluir_autor_vinculado_a_livros()
+    {
+        $autor = Autor::factory()->create();
+        $livro = Livro::factory()->create();
+
+        // Relaciona o autor ao livro na tabela pivot
+        $livro->autores()->attach($autor->codau);
+
+        $response = $this->deleteJson("/api/autores/{$autor->codau}");
+
+        $response->assertStatus(400)
+                ->assertJsonFragment([
+                    'message' => 'Não é possível excluir o autor, pois ele está vinculado a um ou mais livros.'
+                ]);
+
+        $this->assertDatabaseHas('autores', ['codau' => $autor->codau]);
     }
 }

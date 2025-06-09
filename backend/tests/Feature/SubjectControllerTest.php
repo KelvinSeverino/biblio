@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\Assunto;
+use App\Models\Livro;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class SubjectControllerTest extends TestCase
@@ -116,5 +117,24 @@ class SubjectControllerTest extends TestCase
         $response = $this->deleteJson('/api/assuntos/999');
 
         $response->assertStatus(404);
+    }
+
+    /** @test */
+    public function nao_deve_excluir_assunto_vinculado_a_livros()
+    {
+        $assunto = Assunto::factory()->create();
+        $livro = Livro::factory()->create();
+
+        // Relaciona o assunto ao livro na tabela pivot
+        $livro->assuntos()->attach($assunto->codas);
+
+        $response = $this->deleteJson("/api/assuntos/{$assunto->codas}");
+
+        $response->assertStatus(400)
+                ->assertJsonFragment([
+                    'message' => 'Não é possível excluir o assunto, pois ele está vinculado a um ou mais livros.'
+                ]);
+
+        $this->assertDatabaseHas('assuntos', ['codas' => $assunto->codas]);
     }
 }
